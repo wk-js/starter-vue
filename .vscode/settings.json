@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "path-intellisense.mappings": {
+    "components": "${workspaceRoot}/app/scripts/components",
+    "consts": "${workspaceRoot}/app/scripts/consts",
+    "devices": "${workspaceRoot}/app/scripts/devices",
+    "lib": "${workspaceRoot}/app/scripts/lib",
+    "sections": "${workspaceRoot}/app/scripts/sections",
+    "vendor": "${workspaceRoot}/app/scripts/vendor",
+    "assets": "${workscpaeRoot}/app/assets"
+  }
+}

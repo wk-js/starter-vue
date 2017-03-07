@@ -1,0 +1,10 @@
+.DS_Store
+.sass-cache
+.tmp
+*.mp4
+node_modules
+npm-debug.*
+public/*
+dist/*
+tmp
+.idea

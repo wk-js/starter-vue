@@ -1,0 +1,40 @@
+.ui-button {
+  display: inline-block
+  cursor: pointer
+  padding: 8px 13px
+  background-color: #131416
+  transition: background-color 0.4s;
+
+  &.hidden {
+    display: none
+  }
+
+  span {
+    position: relative
+    top: -2px
+    font-family: Lato-Regular, "Helvetica"
+    font-size: (10/16)em
+    color: #F0F1F5
+    letter-spacing: 0.2em
+    text-transform: uppercase
+    transition: color 0.4s;
+  }
+
+  &.alternative {
+    background-color: transparent
+    border: 1px #E8E8E8 solid
+    padding-right: 13px
+
+    span {
+      color: #9497A0
+    }
+  }
+
+  &:hover{
+    background-color: #F0F1F5;
+    span{
+      color: #131416;
+    }
+  }
+
+}

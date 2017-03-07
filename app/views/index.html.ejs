@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <link rel="stylesheet" href="<%= asset_url('styles/index.styl') %>">
+  </head>
+  <body>
+
+    <div id="app">
+      <desktop-device v-if="store.isDesktop"></desktop-device>
+      <mobile-device v-if="store.isMobile"></mobile-device>
+    </div>
+
+    <script src="<%= asset_url('scripts/vendor/index.js') %>"></script>
+    <script src="<%= asset_url('scripts/index.js') %>"></script>
+
+  </body>
+</html>

@@ -1,0 +1,33 @@
+'use strict'
+
+wk.load('./workflow/tasks/aws.js', true)
+wk.load('./workflow/tasks/assets.js', true)
+wk.load('./workflow/tasks/bump.js', true)
+wk.load('./workflow/tasks/template/template.js')
+wk.load('./workflow/asset-builder/webpack/tasks/webpack.js', true)
+// wk.load('./workflow/asset-builder/classic/tasks/classic.js', true)
+
+task('clean', function() {
+  const Project = require('./workflow/lib/project.js').getActive()
+  const fs = require('fs-extra')
+  fs.emptyDirSync(Project.AssetPipeline.ABSOLUTE_DST_PATH)
+})
+
+desc(['assets:resolve', 'clean', 'assets:move', 'webpack:compile'].join(' '))
+task('compile', [ 'assets:resolve', 'clean', 'assets:move', 'webpack' ])
+
+desc(['assets:resolve', 'clean', 'assets:move', 'webpack:server'].join(' '))
+task('server', [ 'assets:resolve', 'clean', 'assets:move', 'webpack --server' ])
+
+desc(['assets:resolve', 'clean', 'assets:move', 'webpack:watch'].join(' '))
+task('watch', [ 'assets:resolve', 'clean', 'assets:move', 'webpack --watch' ])
+
+namespace( 'build', function() {
+
+  desc(['assets:resolve', 'clean', 'assets:move', 'webpack:build'].join(' '))
+  task('default', [ 'assets:resolve', 'clean', 'assets:move', 'webpack --compress' ])
+
+  desc([ 'assets:resolve', 'clean', 'assets:move', 'webpack:build_locales --compress' ].join(' '))
+  task('locales', [ 'assets:resolve', 'clean', 'assets:move', 'webpack:build_locales --compress' ])
+
+})
