@@ -3,23 +3,6 @@
 module.exports = function( Project ) {
 
   /**
-   * Configure build
-   */
-
-  /**
-   * Entries
-   */
-  Project.entry('styles/index.styl', 'main.css')
-  Project.entry('scripts/index.js', 'main.js')
-  Project.entry('scripts/vendor/index.js', 'vendor.js')
-  Project.entry('views/index.html.ejs', 'index.html', { cache: false })
-
-  // Example submodule
-  Project.entry('submodules/example/styles/index.styl', 'example/main.css')
-  Project.entry('submodules/example/scripts/index.js', 'example/main.js')
-  Project.entry('submodules/example/index.html.ejs', 'example/index.html', { cache: false })
-
-  /**
    * Configure asset pipeline part
    */
 
@@ -44,4 +27,21 @@ module.exports = function( Project ) {
    */
   AssetPipeline.symlink('assets')
 
+
+  /**
+   * Configure build
+   */
+
+  /**
+   * Entries
+   */
+  Project.entry('styles/index.styl', 'main.css')
+  Project.entry('scripts/index.js', 'main.js')
+  Project.entry('scripts/vendor/index.js', 'vendor.js')
+  Project.entry('views/index.html.ejs', 'index.html', { cache: false })
+
+  // Example submodule
+  Project.entry('submodules/example/styles/index.styl', 'example/main.css')
+  Project.entry('submodules/example/scripts/index.js', 'example/main.js')
+  Project.entry('submodules/example/index.html.ejs', 'example/index.html', { cache: false })
 }
