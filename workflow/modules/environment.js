@@ -1,17 +1,19 @@
 'use strict'
 
-const path     = require('path')
-const CONSTS   = require('../constants')
+const path = require('path')
 
-module.exports = function(Project) {
+module.exports = function() {
 
-  const ENVIRONMENT = process.env.ENV || 'development'
-  const ENV_FILE    = require( path.join(CONSTS.ENV_PATH, ENVIRONMENT) )
+  this.configure.before('application:configure', 'environment:setup', function() {
+    const ENV           = process.env.NODE_ENV || 'development'
+    const ENV_DATA_PATH = path.join(process.cwd(), 'config/environments/', ENV)
+    const ENV_DATA      = require(ENV_DATA_PATH)
 
-  ENV_FILE( Project )
+    this.data('infos', {
+      environment: ENV
+    })
 
-  Project.addData('infos', {
-    environment: ENVIRONMENT
+    ENV_DATA.call( this, this )
   })
 
 }

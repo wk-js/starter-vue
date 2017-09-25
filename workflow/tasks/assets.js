@@ -1,22 +1,18 @@
 'use strict'
 
-const Project       = require('../lib/project').getActive()
-const AssetPipeline = require('../lib/asset-pipeline')
-
 desc('[Asset] Generate asset key')
 task('generate_key', function() {
-  console.log(AssetPipeline.generateAssetKey())
+  console.log(require('asset-pipeline').generateAssetKey())
 })
 
-desc('[Asset] Create or update manifest file')
+desc('resolve')
 task('resolve', function() {
-  Project.configure()
+  const prj = require('../index.js')
+  prj.make()
+  return prj
 })
 
 desc('[Asset] Copy/symlink assets')
-task('move', function() {
-  if (!Project._configured) {
-    Project.configure()
-  }
-  Project.AssetPipeline.proceedMove()
+task('move', [ 'assets:resolve' ], function() {
+  wk.Tasks['assets:resolve'].value.copyAssets()
 })

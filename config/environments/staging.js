@@ -1,47 +1,26 @@
 'use strict'
 
-module.exports = function( Project ) {
+module.exports = function Staging() {
 
-  /**
-   * Configure asset pipeline part
-   */
+  this.assets.DST_PATH           = './dist'
+  this.assets.ASSET_KEY          = "<asset_key>"
+  this.assets.KEEP_MANIFEST_FILE = true
+  this.assets.cacheable          = true
+  this.assets.debug              = false
 
-  /**
-   * Asset pipeline
-   */
-  const AssetPipeline = Project.AssetPipeline
-
-  AssetPipeline.LOAD_PATH = './app'
-  AssetPipeline.DST_PATH  = './dist'
-  AssetPipeline.cacheable = true
-
-  // Keep the same file manifest.json and override it
-  AssetPipeline.debug = false
-  AssetPipeline.KEEP_MANIFEST_FILE = true
-  AssetPipeline.ASSET_KEY = "a59612dfb1a58efa5f788a0031efe07d"
-
-  AssetPipeline.add('assets')
-
-  /**
-   * Configure copy part
-   */
-  AssetPipeline.copy('assets')
-
-
-  /**
-   * Configure build
-   */
+  this.assets.add('assets')
+  this.assets.copy('assets')
 
   /**
    * Entries
    */
-  Project.entry('styles/index.styl', 'main.css')
-  Project.entry('scripts/index.js', 'main.js')
-  Project.entry('scripts/vendor/index.js', 'vendor.js')
-  Project.entry('views/index.html.ejs', 'index.html', { cache: false })
+  this.entry('styles/index.styl', 'main.css')
+  this.entry('scripts/index.js', 'main.js')
+  this.entry('scripts/vendor/index.js', 'vendor.js')
+  this.entry('views/index.html.ejs', 'index.html', { cache: false })
 
-  // Example submodule
-  Project.entry('submodules/example/styles/index.styl', 'example/main.css')
-  Project.entry('submodules/example/scripts/index.js', 'example/main.js')
-  Project.entry('submodules/example/index.html.ejs', 'example/index.html', { cache: false })
+  // // Example submodule
+  // this.entry('submodules/example/styles/index.styl', 'example/main.css')
+  // this.entry('submodules/example/scripts/index.js', 'example/main.js')
+  // this.entry('submodules/example/index.html.ejs', 'example/index.html', { cache: false })
 }

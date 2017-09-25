@@ -28,9 +28,7 @@ function pad( str, padding, max, append ) {
 
 function getNextVersion() {
 
-  const current = getCurrentVersion().split('.')
-  const version = current[0]
-  let patch     = parseInt(current[1])
+  let current, version, patch
 
   const date  = new Date
   const year  = pad(date.getFullYear().toString(), "0", 4)
@@ -38,6 +36,14 @@ function getNextVersion() {
   const day   = pad(date.getDate().toString(), "0", 2)
 
   const nextVersion = year+month+day
+
+  if (getCurrentVersion()) {
+    current = getCurrentVersion().split('.')
+    version = current[0]
+    patch   = parseInt(current[1])
+  } else {
+    version = nextVersion
+  }
 
   if (version !== nextVersion) {
     patch = 0
@@ -55,8 +61,8 @@ function getNextVersion() {
 /**
  * Check the git stage is clean
  */
-taskProcess('stage_clean', 'git status --porcelain --untracked-files=no', function(err, stdout) {
-  if (stdout.length !== 0) return this.fail(`Stage is not clean`)
+taskProcess('stage_clean', 'git status --porcelain --untracked-files=no', function(res) {
+  if (res.stdout.length !== 0) return this.fail(`Stage is not clean`)
 
   this.complete()
 }, { async: true, visible: false, process: { printStdout: false } })

@@ -2,7 +2,7 @@
 
 const path         = require('path')
 const fs           = require('fs-extra')
-const ejs          = require('ejs')
+const ejs          = require('lodash.template')
 const EventEmitter = require('events').EventEmitter
 
 class Template extends EventEmitter {
@@ -17,6 +17,9 @@ class Template extends EventEmitter {
   constructor(input, output) {
     super()
 
+    this.include = this.include.bind(this)
+    this.require = this.require.bind(this)
+
     this.input   = input
     this.output  = output
 
@@ -24,12 +27,18 @@ class Template extends EventEmitter {
     this.data     = {}
     this.ejs      = ejs
     this.includes = []
+
+    this.enableWatch = false
   }
 
   /**
    * Render
    */
   render() {
+
+    if (!this.options.filename) {
+      this.options.filename = path.resolve(this.input)
+    }
 
     this.emit('start')
 
@@ -40,17 +49,6 @@ class Template extends EventEmitter {
 
     rs.on('data', ( chunk ) => {
       chunk = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : chunk
-
-      const matches = chunk.match(/<%(-|=).+(include)\(.+\).+%>/gi)
-      if (matches) {
-        matches.forEach((match) => {
-          const filename = match.replace(/(<%(-|=).+(include)\(('|")|(('|")\).+%>))/gi, '')
-          if (filename.length !== 0 && !/[‘“!#$%&+^<=>`]/.test(filename)) {
-            this.includes.push( match.replace(/(<%(-|=).+(include)\(('|")|(('|")\).+%>))/gi, '') )
-          }
-        })
-      }
-
       ws.write( this.renderSource(chunk) )
     })
 
@@ -62,12 +60,52 @@ class Template extends EventEmitter {
 
   }
 
+  include(pth) {
+    if (this.includes.indexOf(pth) === -1) {
+      this.includes.push(pth)
+      // if (this.enableWatch) this.watch(pth, this.options.filename)
+    }
+    return Template.include(pth, this.options)
+  }
+
+  require(pth) {
+    return Template.require(pth)
+  }
+
+  watch(child, parent) {
+    fs.watchFile(child, { interval: 300 }, (curr, prev) => {
+      if (curr.mtime > prev.mtime) {
+        fs.open(parent, 0, function(err, fd) {
+          if (err) return console.log(err)
+
+          fs.fstat(fd, function(err) {
+            if (err) return console.log(err)
+            var now = Date.now()
+
+            var a = parseInt(now / 1000, 10)
+              , m = parseInt(now / 1000, 10)
+
+            fs.futimes(fd, a, m, function(err) {
+              if (err) return console.log(err)
+              fs.close(fd)
+            })
+          })
+        })
+      }
+    })
+  }
+
   /**
    * Render a source
    *
    * @param {String} src
    */
   renderSource( src ) {
+    // Force defaults
+    this.data.include = this.include
+    this.data.require = this.require
+    this.options.interpolate = /<%=([\s\S]+?)%>/g
+
     return Template.render( src, this.options, this.data )
   }
 
@@ -81,7 +119,19 @@ class Template extends EventEmitter {
  * @param {Object} data
  */
 Template.render = function(src, options, data) {
-  return ejs.render(src, data || {}, options || {})
+  return ejs(src, options)(data)
+}
+
+Template.include = function(pth, options, data) {
+  pth = path.resolve(path.dirname(options.filename), pth)
+  pth = path.relative(process.cwd(), pth)
+  var src = fs.readFileSync(pth)
+  return Template.render(src, options, data)
+}
+
+Template.require = function(pth, options) {
+  pth = path.resolve(path.dirname(options.filename), pth)
+  return require(pth)
 }
 
 module.exports = Template

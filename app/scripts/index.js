@@ -1,3 +1,5 @@
-import Startup from './startup'
+// import Startup from './startup'
 
-Startup()
+// Startup()
+
+console.log(require('./consts/manifest.js'))

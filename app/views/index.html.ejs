@@ -12,6 +12,16 @@
       <mobile-device v-if="store.isMobile"></mobile-device>
     </div>
 
+    <% if (infos.environment != 'production') { %>
+    <ul class="debug">
+      <%
+        print(Object.keys(infos).map(function(key) {
+          return '<li>' + key + ': ' + infos[key] + '</li>'
+        }).join(''))
+      %>
+    </ul>
+    <% } %>
+
     <script src="<%= asset_url('scripts/vendor/index.js') %>"></script>
     <script src="<%= asset_url('scripts/index.js') %>"></script>
 
