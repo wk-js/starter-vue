@@ -18,17 +18,7 @@ const TEMPLATES = {
       'section/section.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'electron-ui', 'scripts', 'sections' )
-  },
-
-  tab: {
-    files: [
-      'tab/tab.js',
-      'tab/tab.styl',
-      'tab/tab.html'
-    ],
-    directory: true,
-    output: join( process.cwd(), 'electron-ui', 'scripts', 'tabs' )
+    output: join( process.cwd(), 'app', 'scripts', 'sections' )
   },
 
   component: {
@@ -38,7 +28,7 @@ const TEMPLATES = {
       'component/component.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'electron-ui', 'scripts', 'components' )
+    output: join( process.cwd(), 'app', 'scripts', 'components' )
   },
 
   ui: {
@@ -48,23 +38,18 @@ const TEMPLATES = {
       'ui/ui.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'electron-ui', 'scripts', 'components', 'ui' )
+    output: join( process.cwd(), 'app', 'scripts', 'components', 'ui' )
   },
 
-  format: {
+  screen: {
     files: [
-      'format.js'
+      'screen/screen.js',
+      'screen/screen.styl',
+      'screen/screen.html'
     ],
-    directory: false,
-    output: join( process.cwd(), 'electron-node', 'formats' ),
-    data(name, template_name, data) {
-      return {
-        format: name[0].toUpperCase() + name.slice(1),
-        extension: '.' + name.toLowerCase()
-      }
-    }
+    directory: true,
+    output: join( process.cwd(), 'app', 'scripts', 'screens' )
   }
-
 
 }
 

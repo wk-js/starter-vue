@@ -5,26 +5,36 @@
   "description": "",
   "author": "wk-js",
   "license": "ISC",
-  "devDependencies": {
-    "babel-core": "6.22.1",
-    "babel-loader": "6.2.10",
-    "babel-preset-es2015": "6.22.0",
-    "extract-text-webpack-plugin": "2.1.2",
-    "filelist": "0.0.6",
-    "fs-extra": "1.0.0",
-    "lodash.template": "4.4.0",
-    "raw-loader": "0.5.1",
-    "stylus": "0.54.5",
-    "stylus-loader": "2.5.1",
-    "webpack": "2.7.0",
-    "webpack-dev-server": "2.8.2",
-    "when": "3.7.7"
+  "scripts": {
+    "wk":                    "node_modules/.bin/wk",
+    "start":                 "npm run wk start",
+    "server":                "npm run wk server",
+    "watch":                 "npm run wk watch",
+    "compile":               "npm run wk compile",
+    "build":                 "npm run wk build",
+    "build:staging":         "NODE_ENV=staging npm run wk build",
+    "build:staging:locales": "NODE_ENV=staging npm run wk build:locales"
   },
   "dependencies": {
     "asset-pipeline": "github:wk-js/asset-pipeline#0.0.2",
+    "babel-core": "6.22.1",
+    "babel-loader": "6.2.10",
+    "babel-preset-es2015": "6.22.0",
+    "eventemitter3": "^2.0.3",
+    "extract-text-webpack-plugin": "2.1.2",
+    "filelist": "0.0.6",
+    "fs-extra": "1.0.0",
     "gsap": "1.19.1",
-    "lol": "github:makemepulse/lol.js#0.0.3",
-    "vue": "2.1.8"
+    "lodash.template": "4.4.0",
+    "lol": "github:makemepulse/lol.js#0.0.4",
+    "raw-loader": "0.5.1",
+    "stylus": "0.54.5",
+    "stylus-loader": "2.5.1",
+    "vue": "2.1.8",
+    "webpack": "2.7.0",
+    "webpack-dev-server": "2.8.2",
+    "when": "3.7.7",
+    "workflow-cli": "^0.8.10"
   },
   "browser": {
     "vue": "vue/dist/vue.common"

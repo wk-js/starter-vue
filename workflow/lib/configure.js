@@ -63,16 +63,16 @@ class Configure {
 
     this._promise = when.reduce(order, function(res, name) {
       if (ignores.indexOf(name) != -1) {
-        console.log(`Ignore ${name}`)
+        global.Application.logger(`Ignore ${name}`)
         return
       }
 
       try {
-        console.log(`Execute ${name}`)
+        global.Application.logger(`Execute ${name}`)
         return tasks[name].call( context )
       } catch(e) {
-        console.log(`Execute ${name} [FAILED]`)
-        console.log(e)
+        global.Application.logger(`Execute ${name} [FAILED]`)
+        global.Application.logger(e)
       }
     }, null).then(() => {
       return context

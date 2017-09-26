@@ -11,7 +11,7 @@ module.exports = function() {
 
       ps.stdout.on('data', (d) => {
         this.data('infos', {
-          commit: d.toString('utf-8')
+          commit: d.toString('utf-8').replace(/^\s|\s$/g, '')
         })
       })
 

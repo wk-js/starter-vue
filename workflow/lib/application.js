@@ -11,6 +11,7 @@ class Application {
     this._datas   = {}
 
     this.configure = new Configure(this)
+    this.silent = false
 
     // Setup
     this.configure.add( 'application:initialize' )
@@ -36,6 +37,10 @@ class Application {
 
   make() {
     return this.configure.execute()
+  }
+
+  logger() {
+    if (!this.silent) console.log.apply(null, arguments)
   }
 
 }

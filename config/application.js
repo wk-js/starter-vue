@@ -1,6 +1,8 @@
 'use strict'
 
 module.exports = function Application() {
+
+  // Default configuration shared by all environments
   this.configure.add('application:initialize', function() {
     this.assets.LOAD_PATH          = './app'
     this.assets.DST_PATH           = './public'
@@ -15,10 +17,12 @@ module.exports = function Application() {
     )
   })
 
+  // Add modules
   this.module( require('../workflow/modules/package.js') )
   this.module( require('../workflow/modules/assets.js') )
   this.module( require('../workflow/modules/webpack.js') )
   this.module( require('../workflow/modules/environment.js') )
   this.module( require('../workflow/modules/i18n.js') )
   this.module( require('../workflow/modules/git.js') )
+
 }

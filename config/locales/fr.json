@@ -1,3 +1,11 @@
 {
-  "hello": "Salut tout le monde"
+  "lang": "en",
+  "site": {
+    "global": {
+      "hello": "Salut tout le monde"
+    },
+    "browser": {
+      "legacy": "Votre navigateur n'est pas compatible."
+    }
+  }
 }

@@ -1,3 +1,11 @@
 {
-  "hello": "Hello World"
+  "lang": "en",
+  "site": {
+    "global": {
+      "hello": "Hello World"
+    },
+    "browser": {
+      "legacy": "Your browser is not supported"
+    }
+  }
 }

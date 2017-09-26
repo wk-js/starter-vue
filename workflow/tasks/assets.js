@@ -6,13 +6,21 @@ task('generate_key', function() {
 })
 
 desc('resolve')
-task('resolve', function() {
-  const prj = require('../index.js')
-  prj.make()
-  return prj
+task('resolve', { async: true }, function() {
+  const Application = require('../index.js')
+  Application.make()
+  .then(this.complete)
+  .catch(this.fail)
 })
 
 desc('[Asset] Copy/symlink assets')
-task('move', [ 'assets:resolve' ], function() {
-  wk.Tasks['assets:resolve'].value.copyAssets()
+task('move', { async: true }, function() {
+  const Application  = require('../index.js')
+  Application.silent = true
+  Application.configure.after('assets:resolve', 'assets:move', function() {
+    this.assets.proceedMove()
+  })
+  Application.make()
+  .then(this.complete)
+  .catch(this.fail)
 })

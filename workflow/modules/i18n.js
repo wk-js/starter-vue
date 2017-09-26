@@ -7,21 +7,21 @@ module.exports = function() {
 
   this.config.i18n = {
     default_locale: '',
-    locale: '',
+    locale: process.env.I18N_LOCALE,
     locales: [],
     load_path: []
   }
 
   this.configure.after('application:initialize', 'localization:setup', function() {
 
-    this.config.i18n.locale = this.config.i18n.default_locale
+    this.config.i18n.locale = this.config.i18n.locale || this.config.i18n.default_locale
 
-    let locales = {}
+    const locales = {}
 
     this.config.i18n.locales.forEach((locale) => {
       for (let i = 0, ilen = this.config.i18n.load_path.length; i < ilen; i++) {
         try {
-          locales = require(join( this.config.i18n.load_path[i], locale ))
+          locales[locale] = require(join( this.config.i18n.load_path[i], locale ))
           break
         } catch(e) {}
       }

@@ -2,8 +2,6 @@
 
 module.exports = function Development() {
 
-  this.assets.ASSET_KEY = "develop"
-
   this.assets.add('assets')
   this.assets.symlink('assets')
 

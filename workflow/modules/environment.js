@@ -9,6 +9,8 @@ module.exports = function() {
     const ENV_DATA_PATH = path.join(process.cwd(), 'config/environments/', ENV)
     const ENV_DATA      = require(ENV_DATA_PATH)
 
+    this.config.environment = ENV
+
     this.data('infos', {
       environment: ENV
     })
