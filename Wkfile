@@ -1,10 +1,12 @@
 'use strict'
 
-// wk.require('./workflow/tasks/aws.js', true)
-wk.require('./workflow/tasks/assets.js', true)
-wk.require('./workflow/tasks/bump.js', true)
-wk.require('./workflow/tasks/template.js', true)
-wk.require('./workflow/webpack/tasks/webpack.js', true)
+wk.require.paths.push(process.cwd() + '/workflow/tasks')
+
+// wk.require('aws'     , true)
+wk.require('assets'  , true)
+wk.require('bump'    , true)
+wk.require('template', true)
+wk.require('./workflow/webpack/tasks/webpack' , true)
 
 task('compile', [ 'assets:move', 'webpack' ])
 task('watch'  , [ 'assets:move', 'webpack --watch' ])
