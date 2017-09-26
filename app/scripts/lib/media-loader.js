@@ -2,28 +2,50 @@
 
 import { EventEmitter } from 'events'
 import when from 'when'
+import parallel from 'when/parallel'
+import Net from './net'
 
-var TYPES = {}
-var typesRegExp = /(image|audio|video|magipack|pixi|xhr)/gi
+function NOOP() {}
 
-class Loader extends EventEmitter {
+class Loader {
 
   constructor() {
-    super()
+    this._queue = new LoaderQueue(this)
+    this.breakOnErrorLoading = true
 
-    this._onFileLoaded = this._onFileLoaded.bind(this)
-    this._onFileError  = this._onFileError.bind(this)
-    this._onComplete   = this._onComplete.bind(this)
+    this.ClassName = 'Loader'
+    this.Class     = Loader
 
-    this._queue = []
+    this.TYPE_KEYS = []
+    this.TYPES     = {}
   }
 
+
+
+  /**
+   * Create a new loader
+   *
+   * @returns {Loader}
+   *
+   * @memberOf Loader
+   */
   new() {
-    return new Loader
+    return new (this.Class)
   }
 
+
+
+  /**
+   * Register a new type loader
+   *
+   * @param {String} type
+   * @param {Regex} regexOrCb
+   * @param {Function} cb
+   *
+   * @memberOf Loader
+   */
   addType(type, regexOrCb, cb) {
-    TYPES[type] = {}
+    this.TYPES[type] = {}
 
     let regex = regexOrCb
 
@@ -32,111 +54,365 @@ class Loader extends EventEmitter {
       regex = null
     }
 
-    TYPES[type].load  = cb
-    if (regex) TYPES[type].regex = regex
+    this.TYPES[type].load = cb
+    if (regex) this.TYPES[type].regex = regex
+    this.TYPE_KEYS = Object.keys(this.TYPES)
   }
 
-  load(urlOrItemOrArray, doNotIterate=false) {
+
+
+  /**
+   * Copy types
+   *
+   * @param {Loader} loader
+   *
+   * @memberOf Loader
+   */
+  copyTypes(loader) {
+    for (const key in this.TYPES) {
+      loader.TYPES[key] = this.TYPES[key]
+    }
+
+    loader.TYPE_KEYS = Object.keys(loader.TYPES)
+  }
+
+
+
+  /**
+   * Load an url, or an item or array of urls or items
+   *
+   * @param {String|Object|Array} urlOrItemOrArray
+   * @param {Boolean} [doNotIterate=false]
+   * @returns
+   *
+   * @memberOf Loader
+   */
+  load(urlOrItemOrArray) {
+    if (typeof urlOrItemOrArray == 'object' && !Array.isArray(urlOrItemOrArray)) {
+      const manifest = Object.keys(urlOrItemOrArray).map(function( key ) {
+        urlOrItemOrArray[key].id = key
+        return urlOrItemOrArray[key]
+      })
+
+      this.load( manifest )
+      return
+    }
+
+    // Check queue
+    if (this._queue.loading || this._queue.loaded) {
+      this.resetQueue()
+    }
+
     // Is an url
     if (typeof urlOrItemOrArray === 'string') {
       this._loadUrl(urlOrItemOrArray)
     }
 
-    // Is an item
-    else if (urlOrItemOrArray.hasOwnProperty('type')
-        && urlOrItemOrArray.hasOwnProperty('url')) {
-      this._loadItem(urlOrItemOrArray)
-    }
-
     // Is an array
-    else if (typeof urlOrItemOrArray.length === 'number') {
+    else if (Array.isArray(urlOrItemOrArray)) {
       urlOrItemOrArray.forEach((item) => {
         this.load(item, true)
       })
     }
 
-    else {
-      console.log("This content cannot be loaded")
-      return false
+    // Is an item
+    else if (urlOrItemOrArray.hasOwnProperty('url')) {
+      if (urlOrItemOrArray.hasOwnProperty('type')) {
+        this._loadItem(urlOrItemOrArray)
+      } else {
+        this._loadUrl(urlOrItemOrArray.url, urlOrItemOrArray)
+      }
     }
 
-    if (doNotIterate) return true
-
-    const _queue = this._queue
-    this._queue = []
-    return {
-      manifest: _queue,
-      promise: this._startLoading( _queue )
+    else {
+      console.log("This content cannot be loaded", urlOrItemOrArray)
+      return false
     }
   }
 
-  _loadItem(item) {
-    if (item.type) { //&& item.url && item.type.match(typesRegExp)) {
 
-      var promise = when.promise(function(resolve, reject, notify) {
-        var clean = TYPES[item.type].load(item, function() {
-          notify(item)
-          resolve(item)
+
+
+  /**
+   * Reset the active queue
+   *
+   * @returns
+   *
+   * @memberOf Loader
+   */
+  resetQueue() {
+    this._queue = new LoaderQueue
+  }
+
+
+
+  /**
+   * Start the loading of the active queue and reset
+   *
+   * @returns {LoaderQueue}
+   *
+   * @memberOf Loader
+   */
+  start() {
+    if (this._queue && typeof this._queue.start === 'function') {
+      const queue = this._queue
+      queue.start()
+      return queue
+    }
+  }
+
+
+
+  /**
+   * Load an item
+   *
+   * @param {Object} item
+   * @returns {Boolean}
+   *
+   * @memberOf Loader
+   */
+  _loadItem(item) {
+    if (item.url && item.type && this.TYPE_KEYS.indexOf(item.type) !== -1) {
+
+      // Prepare load function
+      const loadable = () => {
+        const fullfilled = (result) => {
+          item.result = result
+          item._resolve(item)
           if (typeof clean === 'function') clean()
-        }, function() {
-          notify(item)
-          reject(item)
+        }
+
+        const rejected = (result) => {
+          item.result = result
+          item._reject(item)
           if (typeof clean === 'function') clean()
-        })
+        }
+
+        const clean = this.TYPES[item.type].load.call(this, item, fullfilled, rejected)
+
+        return item.promise
+      }
+
+      // Save load function
+      item.loadable = loadable
+
+      // Save resolve and reject functions
+      item.promise = when.promise(function(resolve, reject) {
+        item._resolve = resolve
+        item._reject  = reject
       })
 
-      item.promise = promise
-
-      this._queue.push(promise)
+      // Add item to the queue
+      this._queue.addItem(item)
 
       return true
     }
-    console.log('This item cannot be loaded')
+
+    console.log('This item cannot be loaded', item)
     return false
   }
 
-  _loadUrl(url) {
-    var item = { url: url }
 
-    var types = Object.keys(TYPES).map(function(key) {
-      return { type: key, regex: TYPES[key].regex }
+
+  /**
+   * Load a url
+   *
+   * @param {String} url
+   * @returns {Boolean}
+   *
+   * @memberOf Loader
+   */
+  _loadUrl(url, item) {
+    item = item || { url: url }
+
+    var types = this.TYPE_KEYS.map((key) => {
+      return { type: key, regex: this.TYPES[key].regex }
     })
 
     for (var i = 0, len = types.length; i < len; i++) {
       if (types[i].regex && url.match(types[i].regex)) {
         item.type = types[i].type
-      } else {
-        item.type = 'xhr'
+        continue
       }
     }
 
     return this._loadItem( item )
   }
 
-  _startLoading( queue ) {
-    var i     = 0
-    var count = queue.length
-    var scope = this
+}
 
-    return when.all(queue).then(
-    scope._onComplete,
-    scope._onFileError,
-    function(item) {
-      i++
-      return scope._onFileLoaded(item, i / count)
+
+
+
+
+
+/**
+ *
+ *
+ * @class LoaderQueue
+ * @extends {EventEmitter}
+ */
+class LoaderQueue extends EventEmitter  {
+
+  constructor() {
+    super()
+
+    // Binding
+    this._onFileLoaded = this._onFileLoaded.bind(this)
+    this._onError  = this._onError.bind(this)
+    this._onComplete   = this._onComplete.bind(this)
+
+    // Setup
+    this.items     = []
+    this.loadables = []
+
+    // Promise part
+    this._resolve = null
+    this._reject  = null
+
+    this.promise = when.promise((resolve, reject) => {
+      this._resolve = resolve
+      this._reject  = reject
+    })
+
+    this.promise.catch(this._onError)
+    this.promise.then(this._onComplete)
+
+    // Progress part
+    this.itemLoaded = 0
+    this.progress   = 0
+    this.loading    = false
+    this.loaded     = false
+  }
+
+
+  /**
+   * Add a new item to the queue
+   *
+   * @param {Object} item
+   *
+   * @memberOf LoaderQueue
+   */
+  addItem(item) {
+    item.promise.tap(this._onFileLoaded)
+    this.loadables.push(item.loadable)
+    this.items.push(item)
+  }
+
+
+
+  /**
+   * Start loading
+   *
+   * @returns {Promise}
+   *
+   * @memberOf LoaderQueue
+   */
+  start() {
+    this.loading = true
+    this.loaded  = false
+
+    // Start loading
+    return parallel(this.loadables)
+    .then((a) => {
+      this._resolve(a)
+      return a
+    })
+    .catch((a) => {
+      this._reject(a)
+      return a
     })
   }
 
-  _onFileLoaded(item, progress) {
-    this.emit('fileloaded', item, progress)
-    return { item: item, progress: progress }
+
+  /**
+   * Listen fileloaded event
+   *
+   * @param {Function} fn
+   * @returns {LoaderQueue}
+   *
+   * @memberOf LoaderQueue
+   */
+  notify(fn) {
+    this.on('fileloaded', fn)
+    return this
   }
 
-  _onFileError(item) {
-    this.emit('fileerror', item)
+
+
+  /**
+   * Listen error event
+   *
+   * @param {Function} fn
+   * @returns {LoaderQueue}
+   *
+   * @memberOf LoaderQueue
+   */
+  error(fn) {
+    this.on('error', fn)
+    return this
+  }
+
+
+
+  /**
+   * Listen complete event
+   *
+   * @param {Function} fn
+   * @returns {LoaderQueue}
+   *
+   * @memberOf LoaderQueue
+   */
+  complete(fn) {
+    this.loading = false
+    this.loaded  = true
+
+    this.on('complete', fn)
+    return this
+  }
+
+
+  /**
+   * Load item complete callback
+   *
+   * @param {Object} item
+   * @param {Number} progress
+   * @returns {Object}
+   *
+   * @memberOf Loader
+   */
+  _onFileLoaded(item) {
+    this.itemLoaded++
+    this.progress = this.itemLoaded / this.items.length
+    this.emit('fileloaded', this.progress, item)
+    return { item: item, progress: this.progress }
+  }
+
+
+
+  /**
+   * Load item error callback
+   *
+   * @param {Object} item
+   * @returns {Object}
+   *
+   * @memberOf Loader
+   */
+  _onError(item) {
+    this.emit('error', item.result)
     return item
   }
 
+
+
+  /**
+   * Load complete callback
+   *
+   * @param {Array} items
+   * @returns {Array}
+   *
+   * @memberOf Loader
+   */
   _onComplete(items) {
     this.emit('complete', items)
     return items
@@ -144,13 +420,16 @@ class Loader extends EventEmitter {
 
 }
 
-var _loader = new Loader
+
+
+const LoaderSingleton = new Loader
+export default LoaderSingleton
 
 
 /**
- * Image
+ * Load Image
  */
-_loader.addType('image', /.(jpg|jpeg|png|gif)/gi, function(item, onFileLoaded, onFileError) {
+LoaderSingleton.addType('image', /.(jpg|jpeg|png|gif|svg)/gi, function(item, onFileLoaded, onFileError) {
   var image = new Image
   if (item.options && item.options.crossOrigin) image.crossOrigin = item.options.crossOrigin
   image.onload  = onFileLoaded
@@ -166,9 +445,9 @@ _loader.addType('image', /.(jpg|jpeg|png|gif)/gi, function(item, onFileLoaded, o
 
 
 /**
- * HTML5 Audio / Video
+ * Load HTML5 Audio / Video
  */
-_loader.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function(item, onFileLoaded, onFileError) {
+LoaderSingleton.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function(item, onFileLoaded, onFileError) {
   const AudioRegExp = /.(mp3|ogg)/gi
   const VideoRegExp = /.(mp4|ogv|webm)/gi
 
@@ -195,9 +474,9 @@ _loader.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function(item, onFileLoade
 
 
 /**
- * Magipack
+ * Load Magipack
  */
-_loader.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileError) {
+LoaderSingleton.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileError) {
   if (!window.Magipack) {
     console.log('Magipack is not defined')
     return false
@@ -207,9 +486,11 @@ _loader.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileErro
     window.Magipacks = {}
   }
 
+  const options = item.options || {}
+
   var mgpack = new window.Magipack
   mgpack.onLoadComplete = onFileLoaded
-  mgpack.load(item.url, item.jsonFile)
+  mgpack.load(item.url, options.json)
   item.magipack = mgpack
   window.Magipacks[item.id] = mgpack
 
@@ -222,30 +503,21 @@ _loader.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileErro
 /**
  * Load XHR
  */
-_loader.addType('xhr', function(item, onFileLoaded, onFileError) {
-  var xhr = new XMLHttpRequest
-  xhr.open('GET', item.url, true)
-  xhr.onload = onFileLoaded
-  xhr.onerror = onFileError
+LoaderSingleton.addType('xhr', function(item, onFileLoaded, onFileError) {
 
-  if (item.options) {
-    Object.assign(xhr, item.options)
-  }
+  Net.load(item.url, item.options)
+     .then(onFileLoaded)
+     .catch(onFileError)
 
-  xhr.send(null)
-  item.xhr = xhr
+  return function() {}
 
-  return function() {
-    xhr.onload  = null
-    xhr.onerror = null
-  }
 })
 
 
 /**
  * Load howler sound
  */
-_loader.addType('howler', function(item, onFileLoaded, onFileError) {
+LoaderSingleton.addType('howler', function(item, onFileLoaded, onFileError) {
   if (!window.Howl || !window.Howler) {
     console.log('Howler is not defined')
     return false
@@ -258,7 +530,9 @@ _loader.addType('howler', function(item, onFileLoaded, onFileError) {
     preload: true,
     autoplay: false,
     html5: false,
-    onload: onFileLoaded,
+    onload: function() {
+      onFileLoaded( sound )
+    },
     onloaderror: onFileError
   }, options))
 
@@ -268,5 +542,26 @@ _loader.addType('howler', function(item, onFileLoaded, onFileError) {
 })
 
 
+/**
+ * Load THREE.Texture
+ */
+LoaderSingleton.addType('three-texture', function(item, onFileLoaded, onFileError) {
 
-export default _loader
+  const loader = new THREE.TextureLoader
+  loader.load(item.url, onFileLoaded, NOOP, onFileError)
+
+  return function() {}
+})
+
+
+/**
+ * Load THREE.Mesh
+ */
+LoaderSingleton.addType('three-obj', function(item, onFileLoaded, onFileError) {
+
+  const loader = new THREE.OBJLoader
+  loader.load(item.url, onFileLoaded, NOOP, onFileError)
+
+  return function() {}
+
+})

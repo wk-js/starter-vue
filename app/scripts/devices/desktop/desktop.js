@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * Vue
+ * Managers
  */
 import SectionManager from 'lib/vue/managers/section-manager'
 
@@ -25,7 +25,7 @@ export default {
   },
 
   mounted() {
-    SectionManager.Shared.goTo('example-1')
+    SectionManager.goTo('example-1')
   },
 
   methods:{

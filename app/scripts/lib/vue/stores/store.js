@@ -4,8 +4,11 @@ const STORE = {
   isDesktop: window.BrowserDetect.isDesktop,
   isMobile: !window.BrowserDetect.isDesktop,
 
-  menuVisible: false,
-  learnMoreVisible: false,
+  metrics: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    pixelRatio: window.devicePixelRatio
+  }
 }
 
 export default STORE

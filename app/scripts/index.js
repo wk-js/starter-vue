@@ -1,5 +1,17 @@
-// import Startup from './startup'
+import Application from './app'
 
-// Startup()
+/**
+ * Execute application if the browser is supported
+ */
+if (
+  !window.BrowserDetect.Compatibility.isIE ||
+  (window.BrowserDetect.Compatibility.isIE && window.BrowserDetect.Compatibility.IEVersion >= 11)
+) {
+  Application()
+}
 
-console.log(require('./consts/manifest.js'))
+/**
+ * Display legacy version
+ */
+const $legacy = document.getElementById('app-legacy')
+$legacy.style.display = ''

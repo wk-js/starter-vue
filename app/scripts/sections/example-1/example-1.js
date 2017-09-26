@@ -39,7 +39,7 @@ module.exports = {
     onHidden() {},
 
     onUiBtnClick(){
-      SectionManager.Shared.goTo('example-2')
+      SectionManager.goTo('example-2')
     }
 
   }

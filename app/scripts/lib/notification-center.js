@@ -1,4 +1,6 @@
 'use strict'
 
-const NotificationCenter = new window.Vue()
+import EventEmitter3 from 'eventemitter3'
+
+const NotificationCenter = new EventEmitter3
 export default NotificationCenter

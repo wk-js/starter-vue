@@ -3,24 +3,36 @@
   <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate" />
+
+    <meta property="og:image" content="https:<%= asset_url('assets/images/fb_share.jpg') %>"/>
+    <meta property="og:image:type" content="image/jpeg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:locale" content="<%= t('site.meta.og_locale') %>"/>
+    <meta property="og:title" content="<%= t('site.meta.og_title') %>"/>
+    <meta property="og:url" content="<%= t('site.meta.og_url') %>"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="<%= t('site.meta.og_description') %>"/>
+
+    <meta name="twitter:card" content="<%= t('site.meta.twitter:card') %>"/>
+    <meta name="twitter:site" content="<%= t('site.meta.twitter:site') %>"/>
+    <meta name="twitter:title" content="<%= t('site.meta.og_title') %>"/>
+    <meta name="twitter:image" content="https:<%= asset_url('assets/images/share.jpg') %>"/>
+    <meta name="twitter:url" content="<%= t('site.meta.og_url') %>"/>
+
+    <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <link rel="stylesheet" href="<%= asset_url('styles/index.styl') %>">
   </head>
   <body>
 
-    <div id="app">
-      <desktop-device v-if="store.isDesktop"></desktop-device>
-      <mobile-device v-if="store.isMobile"></mobile-device>
+    <div id="app"></div>
+
+    <div id="app-legacy" style="display: none">
+      <%= t('site.browser.legacy') %>
     </div>
 
-    <% if (infos.environment != 'production') { %>
-    <ul class="debug">
-      <%
-        print(Object.keys(infos).map(function(key) {
-          return '<li>' + key + ': ' + infos[key] + '</li>'
-        }).join(''))
-      %>
-    </ul>
-    <% } %>
+    <%= include('./debug.html.ejs') %>
 
     <script src="<%= asset_url('scripts/vendor/index.js') %>"></script>
     <script src="<%= asset_url('scripts/index.js') %>"></script>

@@ -34,7 +34,7 @@ module.exports = {
 
   methods: {
 
-    _onClick(e) {
+    _onClick() {
       if (this.href && this.href.length > 0) {
         window.open(this.href, '_blank')
       }
