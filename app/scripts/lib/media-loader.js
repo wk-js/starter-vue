@@ -88,16 +88,6 @@ class Loader {
    * @memberOf Loader
    */
   load(urlOrItemOrArray) {
-    if (typeof urlOrItemOrArray == 'object' && !Array.isArray(urlOrItemOrArray)) {
-      const manifest = Object.keys(urlOrItemOrArray).map(function( key ) {
-        urlOrItemOrArray[key].id = key
-        return urlOrItemOrArray[key]
-      })
-
-      this.load( manifest )
-      return
-    }
-
     // Check queue
     if (this._queue.loading || this._queue.loaded) {
       this.resetQueue()

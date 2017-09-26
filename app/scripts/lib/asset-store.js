@@ -18,7 +18,10 @@ class AssetStore {
   load( manifest ) {
     Object.assign(this.assets, manifest)
 
-    this.mediaLoader.load( manifest )
+    this.mediaLoader.load(Object.keys(manifest).map(function( key ) {
+      manifest[key].id = key
+      return manifest[key]
+    }))
 
     this.mediaLoader._queue.items.forEach((item) => {
       const key = item.url
@@ -58,4 +61,4 @@ class AssetStore {
 
 }
 
-export default AssetStore
+export default new AssetStore

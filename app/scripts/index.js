@@ -13,5 +13,7 @@ if (
 /**
  * Display legacy version
  */
-const $legacy = document.getElementById('app-legacy')
-$legacy.style.display = ''
+else {
+  const $legacy = document.getElementById('app-legacy')
+  $legacy.style.display = ''
+}

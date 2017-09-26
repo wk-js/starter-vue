@@ -3,13 +3,16 @@
 import RAF from 'lol/raf/raf'
 
 import SectionManager from 'lib/vue/managers/section-manager'
+import AssetStore from 'lib/asset-store'
 import Store from 'lib/vue/stores/store'
+import I18n from 'lib/i18n'
 import NC from 'lib/notification-center'
 
 import DesktopDevice from './devices/desktop/desktop'
 import MobileDevice from './devices/mobile/mobile'
 
 import UiComponents from 'components/ui'
+
 
 export default function Application() {
 
@@ -21,7 +24,17 @@ export default function Application() {
       return {
         store: Store
       }
-    }
+    },
+
+    methods: Object.assign({
+      asset_url(key) {
+        return AssetStore.get(key) ? AssetStore.get(key).asset_url : key
+      },
+
+      asset_path(key) {
+        return AssetStore.get(key) ? AssetStore.get(key).asset_path : key
+      }
+    }, I18n)
   })
 
   /**
@@ -50,8 +63,7 @@ export default function Application() {
       window.addEventListener('resize', this._onResize)
 
       // Listen request animation frame
-      // RAF.subscribe('#app', this._onUpdate)
-      // RAF.start()
+      RAF.subscribe('#app', this._onUpdate)
     },
 
     render(h) {

@@ -2,14 +2,14 @@
 
 const when = require('when')
 
-function format( request ) {
+function format( request, options ) {
   var result = {}
 
   Object.keys(request).forEach(function(key) {
     if (typeof request[key] == 'function') return
 
     if (key == 'response') {
-      if (request.responseType.match(/json/g) && request.hasOwnProperty('responseText')) {
+      if (options.responseType.match(/json/gi) && request.hasOwnProperty('responseText')) {
         result[key] = JSON.parse(request.responseText)
         return
       }
@@ -44,7 +44,7 @@ export default {
       if (o.mimeType && request.overrideMimeType) request.overrideMimeType(o.mimeType)
 
       request.onload = function(e) {
-        const result = format( e.currentTarget )
+        const result = format( e.currentTarget, o )
 
         if (e.currentTarget.status >= 200 && e.currentTarget.status < 300 || e.currentTarget.status === 304) {
           resolve(result)
@@ -61,7 +61,7 @@ export default {
         reject({
           status: request.status,
           error: request.statusText,
-          request: format(request)
+          request: format( request, o )
         })
       }
 
