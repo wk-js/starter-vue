@@ -1,31 +1,27 @@
 # Workflow starter Vue JS
 
-### Prerequisties
-```
-npm install -g workflow-cli
-```
-
-### Install
+### Setup
 ```
 npm install
+npm run start
 ```
 
 ### Dev
 ```
-wk server
+npm run wk server
 ```
 
 ### Build
 ```
-wk build
+npm run wk build
 ```
 
-### Release
+### Environment
 ```
-ENV={target env} wk build
+ENV={target env} npm run wk build
 ```
 
 ### Available tasks
 ```
-wk
+npm run wk
 ```
