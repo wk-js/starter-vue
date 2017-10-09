@@ -6,14 +6,14 @@
   "author": "wk-js",
   "license": "ISC",
   "scripts": {
-    "wk":                    "node_modules/.bin/wk",
-    "start":                 "npm run wk start",
-    "server":                "npm run wk server",
-    "watch":                 "npm run wk watch",
-    "compile":               "npm run wk compile",
-    "build":                 "npm run wk build",
-    "build:staging":         "NODE_ENV=staging npm run wk build",
-    "build:staging:locales": "NODE_ENV=staging npm run wk build:locales"
+    "start": "npm run wk start",
+    "server": "npm run wk server",
+    "watch": "npm run wk watch",
+    "compile": "npm run wk compile",
+    "build": "npm run wk build",
+    "build:staging": "NODE_ENV=staging npm run wk build",
+    "build:staging:locales": "NODE_ENV=staging npm run wk build:locales",
+    "postinstall": "node ./workflow/npm/postinstall.js"
   },
   "dependencies": {
     "asset-pipeline": "github:wk-js/asset-pipeline#0.0.2",
