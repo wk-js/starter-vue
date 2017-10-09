@@ -6,11 +6,6 @@ npm install
 npm run start
 ```
 
-### Dev
-```
-npm run wk server
-```
-
 ### Build
 ```
 npm run wk build
