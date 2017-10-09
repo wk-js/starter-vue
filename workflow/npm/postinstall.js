@@ -1,17 +1,20 @@
 'use strict'
 
-const BIN_PATH = process.cwd() + '/node_modules/.bin'
-const PKG_PATH = process.cwd() + '/package.json'
+const fs   = require('fs')
+const path = require('path')
 
-const fs       = require('fs')
+const BIN_PATH          = './node_modules/.bin'
+const ABSOLUTE_BIN_PATH = path.join(process.cwd(), BIN_PATH)
+const PKG_PATH          = process.cwd() + '/package.json'
+
 const pkg      = require( PKG_PATH )
-const binaries = fs.readdirSync( BIN_PATH )
+const binaries = fs.readdirSync( ABSOLUTE_BIN_PATH )
 
 pkg.scripts = pkg.scripts || {}
 
 binaries.forEach(function(bin) {
   if (!pkg.scripts.hasOwnProperty(bin)) {
-    pkg.scripts[bin] = BIN_PATH + '/' + bin
+    pkg.scripts[bin] = path.join( BIN_PATH, bin )
   }
 })
 
