@@ -21,6 +21,8 @@ module.exports = function() {
   // Prepare entry with correct path for webpack
   this.configure.after('assets:resolve', 'webpack:setup:entry', function() {
     Object.keys(config._entry).forEach((input) => {
+      if (process.platform == 'win32') input = input.replace(/\//g, '\\')
+
       config._entry[input] = this.assets.getPath(input).replace(/^\//, '')
       config.entry[config._entry[input]] = './' + normalize(input)
     })
