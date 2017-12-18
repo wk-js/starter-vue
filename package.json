@@ -16,7 +16,7 @@
     "build:staging:locales": "NODE_ENV=staging npm run wk build:locales"
   },
   "dependencies": {
-    "asset-pipeline": "github:wk-js/asset-pipeline#0.0.2",
+    "asset-pipeline": "github:wk-js/asset-pipeline#0.0.3",
     "babel-core": "6.22.1",
     "babel-loader": "6.2.10",
     "babel-preset-es2015": "6.22.0",
