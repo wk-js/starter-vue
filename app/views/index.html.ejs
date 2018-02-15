@@ -1,9 +1,8 @@
 ---
 layout: layouts/layout.html.ejs
 title: Home
-locale: <%= infos.locale %>
 ---
-<div id="app">
-  <desktop-device v-if="store.isDesktop"></desktop-device>
-  <mobile-device v-if="store.isMobile"></mobile-device>
+<div id="page-index" class="vue-app">
+  <example-1></example-1>
+  <example-2></example-2>
 </div>

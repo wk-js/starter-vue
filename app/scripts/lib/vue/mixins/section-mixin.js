@@ -17,7 +17,15 @@ export default {
       this.transition = new DefaultTransition( this )
     }
 
-    SectionManager.Shared.register(this)
+    SectionManager.register(this.id, this)
+  },
+
+  methods: {
+
+    goToSection(id) {
+      return SectionManager.goTo(id)
+    }
+
   }
 
 }

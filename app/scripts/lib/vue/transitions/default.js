@@ -4,21 +4,23 @@ import Transition from './_transition'
 
 class DefaultTransition extends Transition {
 
-  in( complete ) {
+  in( complete, next ) {
 
     TweenLite.fromTo(this.$el, 1, {
       autoAlpha: 0
     }, {
-      delay: 0.5,
       autoAlpha: 1,
       onComplete: complete
     })
 
   }
 
-  out( complete ) {
+  out( complete, next ) {
 
-    TweenLite.fromTo(this.$el, 0.5, {
+    // Execute next transition for a cross fade
+    TweenLite.delayedCall(0, next)
+
+    TweenLite.fromTo(this.$el, 1, {
       autoAlpha: 1
     }, {
       autoAlpha: 0,
