@@ -1,0 +1,5 @@
+<div class="ui-button" :class="[className, transition_state, { hidden: !visible }]" @click="_onClick">
+  <div class="button__container">
+    <span><slot></slot></span>
+  </div>
+</div>

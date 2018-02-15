@@ -1,0 +1,14 @@
+wk.require.paths.push(process.cwd() + '/workflow/tasks')
+wk.require.paths.push(process.cwd() + '/workflow/webpack/tasks')
+
+wk.require('aws'     , true)
+wk.require('assets'  , true)
+wk.require('bump'    , true)
+// wk.require('template', true)
+wk.require('webpack' , true)
+wk.require('i18n'    , true)
+wk.require('application'    , true)
+
+task('compile', [ 'application:run', 'webpack --compile --debug' ])
+task('watch'  , [ 'application:run', 'webpack --watch --debug' ])
+task('build'  , [ 'application:run', 'webpack --compress' ])
