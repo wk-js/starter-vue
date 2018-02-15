@@ -1,11 +1,18 @@
 'use strict'
 
 const STORE = {
-  isDesktop: window.BrowserDetect.isDesktop,
-  isMobile: !window.BrowserDetect.isDesktop,
 
-  menuVisible: false,
-  learnMoreVisible: false,
+  page: {
+    name: '',
+    url: ''
+  },
+
+  metrics: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    devicePixelRatio: window.devicePixelRatio
+  }
+
 }
 
 export default STORE

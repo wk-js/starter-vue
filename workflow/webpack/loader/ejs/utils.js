@@ -42,6 +42,7 @@ function render( src, query ) {
   // Create same global variable as jekyll
   query.data.layout  = null
   query.data.content = FMResult.body
+  query.data.page    = path.basename(this.resourcePath).split('.')[0]
 
   // Put front-matter properties
   for (const key in FMResult.attributes) {

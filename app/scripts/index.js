@@ -1,3 +1,4 @@
-import Startup from './startup'
+import { Application } from './app'
 
-Startup()
+const App = new Application
+document.addEventListener('DOMContentLoaded', App.onDOMContentLoaded)

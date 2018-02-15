@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= locale %>">
+<html lang="<%= infos.locale %>">
   <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate" />
@@ -8,7 +8,11 @@
   </head>
   <body>
 
-    <%= content %>
+    <div id="barba-wrapper">
+      <div class="barba-container" data-namespace="<%= page %>">
+        <%= content %>
+      </div>
+    </div>
 
     <script src="<%= asset_url('scripts/vendor/index.js') %>"></script>
     <script src="<%= asset_url('scripts/index.js') %>"></script>

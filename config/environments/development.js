@@ -21,6 +21,8 @@ module.exports = function Development() {
     }
   })
 
+  this.entry('views/about.html.ejs', 'about.html')
+
   this.data('aws', {
     bucket: 'my_bucket',
     profile: 'my_profile',

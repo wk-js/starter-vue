@@ -14,10 +14,14 @@ class ComponentManager extends EventEmitter {
   }
 
   new() {
-    return new ComponentManager
+    return new (this._constructor)
   }
 
-  getComponent(id) {
+  get _constructor() {
+    return ComponentManager
+  }
+
+  get(id) {
     const component = this.components[id]
     if (!component) {
       console.log('[WARN] Get a '+this.type+' that does not exist:', id)
@@ -43,11 +47,11 @@ class ComponentManager extends EventEmitter {
     }
   }
 
-  show(id) {
-    const component = this.getComponent(id)
+  show(id, cb) {
+    const component = this.get(id)
 
     if (component && !component.visible) {
-      return component.transition._in().then(function() {
+      return component.transition._in( cb ).then(function() {
         component.visible = true
       })
     }
@@ -55,10 +59,10 @@ class ComponentManager extends EventEmitter {
     return DEFAULT_PROMISE
   }
 
-  hide(id) {
-    const component = this.getComponent(id)
+  hide(id, cb) {
+    const component = this.get(id)
     if (component && component.visible) {
-      return component.transition._out().then(function() {
+      return component.transition._out( cb ).then(function() {
         component.visible = false
       })
     }
@@ -67,50 +71,37 @@ class ComponentManager extends EventEmitter {
   }
 
   forceShow(id) {
-    const component = this.getComponent(id)
+    const component = this.get(id)
 
     if (component) {
       component.visible = true
-      if (component.forceShow) component.forceShow()
+      component.transition._call('onShow')
+      component.transition._call('onShown')
     }
   }
 
   forceHide(id) {
-    const component = this.getComponent(id)
+    const component = this.get(id)
 
     if (component) {
       component.visible = false
-      if (component.forceHide) component.forceHide()
+      component.transition._call('onHide')
+      component.transition._call('onHidden')
     }
   }
 
   toggle(id) {
-    const component = this.getComponent(id)
+    const component = this.get(id)
 
     if (component) {
       component.visible ? this.hide(id) : this.show(id)
     }
   }
 
-  // enable(id) {
-  //   const component = this.getComponent(id)
-  //   component ? component.$mount(component.$el) : void(0)
-  // }
-
-  // disable(id) {
-  //   const component = this.getComponent(id)
-  //   if (component) {
-  //     this.hide(id).then(function() {
-  //       component.$destroy()
-  //     })
-  //   }
-  // }
-
   off() {
     this.removeListener.call(this, arguments)
   }
 }
 
-const _componentManager = new ComponentManager
-ComponentManager.Shared = _componentManager
-export default ComponentManager
+const ComponentManagerSingleton = new ComponentManager
+export default ComponentManagerSingleton
