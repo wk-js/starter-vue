@@ -1,0 +1,33 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asset-pipeline": "github:wk-js/asset-pipeline#v1.0.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-es2015": "6.24.1",
+    "extract-text-webpack-plugin": "3.0.2",
+    "front-matter": "2.3.0",
+    "fs-extra": "^5.0.0",
+    "google-spreadsheet": "2.0.4",
+    "gsap": "1.20.3",
+    "lodash.template": "4.4.0",
+    "lol": "github:makemepulse/lol.js#0.0.9-beta.0",
+    "raw-loader": "0.5.1",
+    "stylus": "0.54.5",
+    "stylus-loader": "^3.0.1",
+    "vue": "^2.5.13",
+    "webpack": "3.11.0",
+    "wkt": "github:wk-js/wkt",
+    "workflow-cli": "github:wk-js/wk#v0.8.10"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common"
+  }
+}

@@ -1,0 +1,42 @@
+.ui-link {
+  display: inline-block
+  user-select: none
+  cursor: pointer
+  padding: 5px 0
+
+  &.hidden {
+    display: none
+  }
+
+  span {
+    display: inline-block
+    position: relative
+    text-transform: uppercase
+    color: #000000
+    letter-spacing: 0.062em
+    vertical-align: middle
+    font-size: (10/16)em
+    text-align: center
+
+    &:after {
+      content: ""
+      display: inline-block
+      width: 50%
+      height: 1px
+      position: absolute
+      bottom: -7px
+      left: 0
+      right: 0
+      margin: auto
+      background-color: rgba(#131416, 0.5)
+      transition: width 250ms, background-color 250ms
+    }
+  }
+
+
+  &:hover span:after {
+    width: 100%
+    background-color: #131416
+  }
+
+}

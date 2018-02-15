@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <link rel="stylesheet" href="<%= asset_url('styles/index.styl') %>">
+    <title><%= title %></title>
+  </head>
+  <body>
+
+    <%= content %>
+
+    <script src="<%= asset_url('scripts/vendor/index.js') %>"></script>
+    <script src="<%= asset_url('scripts/index.js') %>"></script>
+  </body>
+</html>
