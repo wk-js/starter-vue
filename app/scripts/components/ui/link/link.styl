@@ -8,6 +8,15 @@
     display: none
   }
 
+  &.disabled {
+    cursor: auto
+    pointer-events: none
+
+    span:after {
+      width: 100%
+    }
+  }
+
   span {
     display: inline-block
     position: relative

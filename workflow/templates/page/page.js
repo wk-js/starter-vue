@@ -2,7 +2,7 @@
 
 import { CreatePage } from "../../lib/page";
 import { <%= camelCase %>Store } from './<%= name %>-store'
-import PageMixin from '../../lib/vue/mixins/page-mixin'
+import ApplicationMixin from '../../lib/vue/mixins/application-mixin'
 
 export default CreatePage('<%= name %>', {
 
@@ -17,7 +17,7 @@ export default CreatePage('<%= name %>', {
 
   },
 
-  mixins: [ PageMixin ],
+  mixins: [ ApplicationMixin ],
 
   mounted() {
     // Display section

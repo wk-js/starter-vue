@@ -82,8 +82,15 @@ export class SectionManager extends ComponentManager {
     return _MANAGERS[ id ] = new SectionManager()
   }
 
+  static getOrCreate( id ) {
+    if (_MANAGERS[ id ]) return _MANAGERS[ id ]
+    return _MANAGERS[ id ] = new SectionManager()
+  }
+
   static delete( id ) {
-    delete _MANAGERS[ id ]
+    if (_MANAGERS[ id ]) {
+      delete _MANAGERS[ id ]
+    }
   }
 
 }

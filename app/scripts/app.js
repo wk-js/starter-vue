@@ -6,12 +6,17 @@ import Vue from 'vue'
 // import LoadingManifest from './consts/loading-manifest'
 import { bind } from 'lol/utils/function'
 import I18n from './lib/i18n.js'
-import RouteMixin from './lib/vue/mixins/route-mixin'
+import CommonMixin from './lib/vue/mixins/common-mixin'
 import { AssetStore } from './lib/vue/stores/asset-store'
 import { SharedStore } from './lib/vue/stores/shared-store'
 import { PageManager } from './lib/vue/managers/page-manager'
 import { FadeTransition } from './lib/vue/transitions/page-transitions/fade-transition'
 import UIComponents from './components/ui'
+
+/**
+ * Applications
+ */
+import MenuApp from './sections/menu-app/menu-app'
 
 /**
  * Pages
@@ -64,7 +69,7 @@ export class Application {
         }
       },
 
-      mixins: [ RouteMixin ],
+      mixins: [ CommonMixin ],
 
       methods: Object.assign({
         asset_url( key ) {
@@ -102,6 +107,9 @@ export class Application {
     // Register pages
     PageManager.register(IndexPage)
     PageManager.register(AboutPage)
+
+    // Add non dynamic section
+    new Vue(MenuApp)
 
     // Start
     PageManager.options.listenLink = false

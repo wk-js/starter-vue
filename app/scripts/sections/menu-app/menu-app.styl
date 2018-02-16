@@ -1,0 +1,30 @@
+section#menu-app {
+  width: 100%
+  position: absolute
+  right: 0
+  left: 0
+  margin: auto
+  top: 50px
+  z-index: 1
+  text-align: center
+
+  &.hidden {
+    display: none
+  }
+
+  .ui-link {
+    margin-left: 20px
+
+    span:after {
+      width: 0%
+    }
+
+    &:hover span:after {
+      width: 50%
+    }
+
+    &.disabled span:after {
+      width: 100%
+    }
+  }
+}

@@ -27,11 +27,7 @@ export default {
 
     onShown() {},
 
-    onHidden() {},
-
-    onGoToIndex() {
-      this.routeTo( 'index.html' )
-    }
+    onHidden() {}
 
   }
 

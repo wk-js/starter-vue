@@ -21,6 +21,15 @@ const TEMPLATES = {
     output: join( process.cwd(), 'app', 'scripts', 'sections' )
   },
 
+  application: {
+    files: [
+      'application/application.js',
+      'application/application.styl'
+    ],
+    directory: true,
+    output: join( process.cwd(), 'app', 'scripts', 'sections' )
+  },
+
   page: {
     files: [
       'page/page.js',
@@ -43,7 +52,7 @@ const TEMPLATES = {
 
   ui: {
     files: [
-      'component/component.js',
+      'ui/ui.js',
       'ui/ui.styl',
       'ui/ui.html'
     ],
