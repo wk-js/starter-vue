@@ -11,5 +11,22 @@ wk.require('application', true)
 
 task('compile', [ 'application:run --copy', 'webpack --compile --debug' ])
 task('watch'  , [ 'application:run --copy', 'webpack --watch --debug' ])
-task('build'  , [ 'application:run --copy', 'webpack --compress' ])
 task('server' , [ 'application:run --copy', 'webpack --server' ])
+task('deploy' , [ 'application:run --copy', 'aws:objects', 'aws:exception' ])
+
+namespace('build', function() {
+
+  task('default', [ 'application:run --copy', 'webpack --compress' ])
+
+  task('locales', [ 'application:run' ], { async: true },  function() {
+    const Application = require( './workflow/index.js' )
+    const commands    = Application.config('i18n').locales.map(function(locale) {
+      return `I18N_LOCALE=${locale} npm run build`
+    })
+
+    wk.exec(commands)
+    .catch(this.fail)
+    .then(this.complete)
+  })
+
+})

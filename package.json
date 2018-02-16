@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "wk server",
+    "compile": "wk compile",
+    "watch": "wk watch",
+    "build": "wk build",
+    "locales": "wk i18n",
+    "build:locales": "wk build:locales"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
