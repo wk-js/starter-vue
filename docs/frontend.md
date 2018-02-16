@@ -10,7 +10,7 @@ An `Application` is a classic Vue App created by `new Vue(...)`.
 
 A `Page` is an `Application` connected with `barba.js` router for Pjax content.
 
-To register an application as a page, we have to register it to the `PageManager`. You got an example of pjax and non-pjax content [here](../app/scripts/app.js#L107).
+To register an application as a page, we have to register it to the `PageManager`. You got an example of pjax and non-pjax content [here](../app/scripts/app.js#L99).
 
 #### Component and Section
 
