@@ -1,11 +1,11 @@
 'use strict'
 
-const fs       = require('fs-extra')
-const FileList = require('filelist').FileList
-const Template = require('../lib/template')
-const _        = require('lol/utils/string')
-const path     = require('path')
-const join     = path.join
+const FileUtils = require('wkt/js/api/file/utils')
+const FileList  = require('filelist').FileList
+const Template  = require('../lib/template')
+const _         = require('lol/utils/string')
+const path      = require('path')
+const join      = path.join
 
 const TEMPLATES_PATH = join( __dirname, '..', 'templates' )
 
@@ -19,6 +19,16 @@ const TEMPLATES = {
     ],
     directory: true,
     output: join( process.cwd(), 'app', 'scripts', 'sections' )
+  },
+
+  page: {
+    files: [
+      'page/page.js',
+      'page/page.styl',
+      'page/page-store.js'
+    ],
+    directory: true,
+    output: join( process.cwd(), 'app', 'scripts', 'pages' )
   },
 
   component: {
@@ -39,16 +49,6 @@ const TEMPLATES = {
     ],
     directory: true,
     output: join( process.cwd(), 'app', 'scripts', 'components', 'ui' )
-  },
-
-  screen: {
-    files: [
-      'screen/screen.js',
-      'screen/screen.styl',
-      'screen/screen.html'
-    ],
-    directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'screens' )
   }
 
 }
@@ -70,6 +70,7 @@ task('default', function( name, template_name ) {
   const data = {
     name: name,
     filename: filename,
+    camelCase: _.toCamelCase(filename),
     templateName: _.toCamelCase(filename + '-' + 'template')
   }
 
@@ -81,15 +82,16 @@ task('default', function( name, template_name ) {
 
   FL.forEach(function(file) {
     const extname  = path.extname(file)
+    const basename = path.basename(file, extname).replace(template_name, filename)
 
     let output = join( config.output, filename+extname )
 
     if (config.directory) {
-      if (typeof config.directory === 'boolean') output = join( config.output, filename, filename+extname )
-      if (typeof config.directory === 'string')  output = join( config.output, config.directory, filename+extname )
+      if (typeof config.directory === 'boolean') output = join( config.output, filename, basename+extname )
+      if (typeof config.directory === 'string')  output = join( config.output, config.directory, basename+extname )
     }
 
-    fs.ensureDirSync( path.dirname(output) )
+    FileUtils.ensureDir( path.relative( process.cwd(), path.dirname(output) ) )
 
     renderer.data   = Object.assign({}, data, config.data ? config.data(name, template_name, data) : {})
     renderer.input  = file

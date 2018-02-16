@@ -11,7 +11,7 @@ import SectionMixin from 'lib/vue/mixins/section-mixin'
 import <%= templateName %> from './<%= name %>.html'
 
 
-module.exports = {
+export default {
 
   template: <%= templateName %>,
 
@@ -28,15 +28,10 @@ module.exports = {
   },
 
   methods: {
-
-    onShow() {},
-
-    onHide() {},
-
-    onShown() {},
-
-    onHidden() {}
-
+    // onShow() {},
+    // onShown() {},
+    // onHide() {},
+    // onHidden() {}
   }
 
 }
