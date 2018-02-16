@@ -1,0 +1,36 @@
+<% if (infos.environment != 'production') { %>
+  <ul class="mmp-debug">
+    <%
+      print(Object.keys(infos).map(function(key) {
+        return '<li><span class="mmp-debug__key">' + key + '</span>: <span class="mmp-debug__value">' + infos[key] + '</span></li>'
+      }).join(''))
+    %>
+  </ul>
+
+  <% } else { %>
+
+  <!--
+
+              `-:///:-. .:/+++/:.   ````
+            :osssssssshddhhhhhhhhh+.````````
+          -syssssssshmmmmddhhhhhhhhh+`````````
+         -yyyyyyssshmmmmmmddhhhhhhhhho`````````
+         oyyyyyyyyymmmmmmmmmdhhhhhhhhh.`````````
+         yyyyyyyyyymmmmmmmmmdhhhhhhhhh:.````````
+         syyyyyyyyymmmmmmmmmhhhhhhhhhh:...``````
+         +yyyyyyyyydmmmmmmmdhhhhhhhhhh:.....```
+         ++syyyyyyyddmmmmmddhhhhhhhhyy:......`
+         /++oyyyyyyddddmmdddhhhhhhyyyy:.....
+         ///++syyyydddhohdddhhhhhyyyyy:...`
+         :////++yyyddyooosdddhhyyyyyyy:-.`
+         :::////+oyhooooooohdyssyyyyyy:`
+         .::::////:+ooooooso:ossssyyyo`
+          `.--::-`  -/+oo+:`  :+oso+-
+  <%
+  const datas = Object.keys(infos).map(function(key) { return key + ': ' + infos[key] })
+  datas.unshift('')
+  print(datas.join('\n'))
+  %>
+  -->
+
+  <% } %>
