@@ -18,26 +18,17 @@ const TEMPLATES = {
       'section/section.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'sections' )
+    output: join( process.cwd(), 'app/scripts/sections' )
   },
 
   application: {
     files: [
+      'application/application-store.js',
       'application/application.js',
       'application/application.styl'
     ],
     directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'sections' )
-  },
-
-  page: {
-    files: [
-      'page/page.js',
-      'page/page.styl',
-      'page/page-store.js'
-    ],
-    directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'pages' )
+    output: join( process.cwd(), 'app/scripts/applications' )
   },
 
   component: {
@@ -47,7 +38,7 @@ const TEMPLATES = {
       'component/component.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'components' )
+    output: join( process.cwd(), 'app/scripts/components' )
   },
 
   ui: {
@@ -57,7 +48,7 @@ const TEMPLATES = {
       'ui/ui.html'
     ],
     directory: true,
-    output: join( process.cwd(), 'app', 'scripts', 'components', 'ui' )
+    output: join( process.cwd(), 'app/scripts/components/ui' )
   }
 
 }

@@ -1,18 +1,18 @@
 'use strict'
 
-import { CreatePage } from "../../lib/page";
-import { Store } from './index-store'
-import ApplicationMixin from '../../lib/vue/mixins/application-mixin'
+import { createApp } from "lib/application";
+import { IndexStore } from './index-store'
+import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 
 import Example1 from 'sections/example-1/example-1'
 import Example2 from 'sections/example-2/example-2'
 
-export default CreatePage('index', {
+export default createApp('index', {
 
   data() {
     return {
       id: 'index',
-      store: Store
+      store: IndexStore
     }
   },
 
@@ -25,7 +25,7 @@ export default CreatePage('index', {
 
   mounted() {
     // Display section
-    this.$root.getSectionManager().forceGoTo( this.store.section.default )
+    this.getSectionManager().forceGoTo( this.store.section.default )
   }
 
 })

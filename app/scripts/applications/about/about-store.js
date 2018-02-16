@@ -1,6 +1,6 @@
 'use strict'
 
-export const Store = {
+export const AboutStore = {
 
   section: {
     current: '',

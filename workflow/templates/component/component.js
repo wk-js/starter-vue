@@ -1,15 +1,7 @@
 'use strict'
 
-/**
- * Mixins
- */
 import ComponentMixin from 'lib/vue/mixins/component-mixin'
-
-/**
- * Templates
- */
 import <%= templateName %> from './<%= name %>.html'
-
 
 export default {
 

@@ -1,15 +1,15 @@
 'use strict'
 
 import { createApp } from "lib/application";
-import { <%= camelCase %>Store } from './<%= name %>-store'
+import { MenuStore } from './menu-store'
 import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 
-export default createApp('<%= name %>', {
+export default createApp('menu', {
 
   data() {
     return {
-      id: '<%= name %>',
-      store: <%= camelCase %>Store
+      id: 'menu',
+      store: MenuStore
     }
   },
 

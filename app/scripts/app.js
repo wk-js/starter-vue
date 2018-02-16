@@ -16,13 +16,9 @@ import UIComponents from './components/ui'
 /**
  * Applications
  */
-import MenuApp from './sections/menu-app/menu-app'
-
-/**
- * Pages
- */
-import IndexPage from './pages/index/index'
-import AboutPage from './pages/about/about'
+import MenuApp  from './applications/menu/menu'
+import IndexApp from './applications/index/index'
+import AboutApp from './applications/about/about'
 
 /**
  * Debug
@@ -104,12 +100,12 @@ export class Application {
       return FadeTransition
     }
 
-    // Register pages
-    PageManager.register(IndexPage)
-    PageManager.register(AboutPage)
+    // Register applications as pages for Pjax content
+    PageManager.register(IndexApp)
+    PageManager.register(AboutApp)
 
-    // Add non dynamic section
-    new Vue(MenuApp)
+    // Create directly the App for non-Pjax content
+    MenuApp.createVue()
 
     // Start
     PageManager.options.listenLink = false
