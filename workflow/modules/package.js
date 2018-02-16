@@ -3,7 +3,7 @@
 module.exports = function BumpModule() {
 
   this.data('infos', {
-    version: this.package.build_version
+    version: this.package.build
   })
 
 }
