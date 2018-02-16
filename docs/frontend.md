@@ -23,7 +23,7 @@ A `Section` is the same as `Component` but it must be unique in the entire appli
 |Generation|Command|Source code|Example|
 |---|---|---|---|
 |Application|`npm-do wk template <name> application`|[Application template](../worflow/template/application)|[MenuApp](../app/scripts/applications/menu)|
-|Page|`npm-do wk template <name> application`|[Application template](../worflow/template/application)|[MenuApp](../app/scripts/applications/index)|
+|Page|`npm-do wk template <name> application`|[Application template](../worflow/template/application)|[IndexApp](../app/scripts/applications/index)|
 |Component|`npm-do wk template <name> component`|[Component template](../worflow/template/component)|[UIButton](../app/scripts/components/ui/button)|
 |Section|`npm-do wk template <name> section`|[Section template](../worflow/template/section)|[Example1Section](../app/scripts/sections/example-1)|
 |UI|`npm-do wk template <name> ui`|[UI template](../worflow/template/ui)|[UIButton](../app/scripts/components/ui/button)|
