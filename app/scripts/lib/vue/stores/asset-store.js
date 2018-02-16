@@ -1,38 +1,43 @@
 'use strict'
 
 import MediaLoader from 'lib/media-loader'
-import when from 'when'
-import { EventEmitter } from 'events'
+import Manifest from '../../../consts/manifest'
 
-class _AssetStore extends EventEmitter {
+class _AssetStore {
 
   constructor() {
-    super()
-
     this.mediaLoader = MediaLoader.new()
-    this.manifest    = undefined
-    this.assets      = {}
-    this.device      = null
+    MediaLoader.copyTypes(this.mediaLoader)
+
+    this.assets = window.manifest || Manifest
   }
 
-  getAssets( manifest ) {
-    return Object.keys(manifest).map(function( key ) {
-      manifest[key].id = key
-      return manifest[key]
-    })
+  new() {
+    return new _AssetStore
   }
 
   load( manifest ) {
-    manifest = this._filterManifest( manifest )
     Object.assign(this.assets, manifest)
-    const assets = this.getAssets( manifest )
-    return this.mediaLoader.load( assets )
+
+    this.mediaLoader.load(Object.keys(manifest).map(function( key ) {
+      manifest[key].id = key
+      return manifest[key]
+    }))
+
+    this.mediaLoader._queue.items.forEach((item) => {
+      const key = item.url
+      if (!this.assets[key]) return
+
+      this.assets[key] = Object.assign(this.assets[key], item)
+    })
+
+    return this.mediaLoader.start()
   }
 
   loadFonts( fontManifest ) {
     let $preload = document.querySelector('font-loader')
     $preload     = $preload ? $preload : document.createElement('div')
-    $preload.style.cssText = 'opacity: 0; visibility: hidden; pointer-events: none; position: absolute; top: 0;'
+    $preload.style.cssText = 'opacity: 0; visibility: hidden; pointer-events: none; position: absolute; top: 0; left: 0;'
 
     let html = ""
 
@@ -47,54 +52,12 @@ class _AssetStore extends EventEmitter {
     this.$preload = $preload
   }
 
-  getPath( asset_path ) {
-    return this.manifest[asset_path] || asset_path
-  }
-
   get( asset_path, async ) {
     const asset = this.assets[asset_path]
     if (async && asset) {
       return asset.promise
     }
     return asset
-  }
-
-  getAll( asset_paths, async ) {
-    const arr = []
-    asset_paths.forEach(function(asset_path) {
-      if (this.assets[asset_path]) {
-        arr.push(this.assets[asset_path])
-      }
-    })
-
-    if (async) {
-      arr.map(function(asset) {
-        return asset.promise
-      })
-      return when.all(arr)
-    }
-
-    return arr
-  }
-
-  _filterManifest( manifest ) {
-    if (this.device) {
-      const mnfst = {}
-
-      for (const key in manifest) {
-        if (Array.isArray(manifest[key].devices)) {
-          if (manifest[key].devices.indexOf(this.device) !== -1) {
-            mnfst[key] = manifest[key]
-          }
-        } else {
-          mnfst[key] = manifest[key]
-        }
-      }
-
-      return mnfst
-    }
-
-    return manifest
   }
 
 }

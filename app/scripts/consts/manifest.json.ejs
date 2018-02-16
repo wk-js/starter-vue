@@ -1,0 +1,13 @@
+<%
+  var ASSETS = {}
+
+  for (const key in assets) {
+    ASSETS[key] = {
+      asset_url: asset_url(key),
+      asset_path: asset_path(key),
+      url: asset_url(key)
+    }
+  }
+
+  print(JSON.stringify(ASSETS))
+%>
