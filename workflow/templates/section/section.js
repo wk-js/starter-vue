@@ -1,15 +1,7 @@
 'use strict'
 
-/**
- * Mixins
- */
 import SectionMixin from 'lib/vue/mixins/section-mixin'
-
-/**
- * Templates
- */
 import <%= templateName %> from './<%= name %>.html'
-
 
 export default {
 

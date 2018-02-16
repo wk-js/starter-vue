@@ -41,12 +41,12 @@ function configure( App, OPTIONS ) {
   config.resolve = {
     extensions: [ '.js', '.js.ejs', '.json', '.json.ejs' ],
     alias: {
-      "components": ABSOLUTE_SRC_PATH + "/scripts/components",
-      "consts":     ABSOLUTE_SRC_PATH + "/scripts/consts",
-      "devices":    ABSOLUTE_SRC_PATH + "/scripts/devices",
-      "lib":        ABSOLUTE_SRC_PATH + "/scripts/lib",
-      "sections":   ABSOLUTE_SRC_PATH + "/scripts/sections",
-      "vendor":     ABSOLUTE_SRC_PATH + "/scripts/vendor"
+      "components":   ABSOLUTE_SRC_PATH + "/scripts/components",
+      "sections":     ABSOLUTE_SRC_PATH + "/scripts/sections",
+      "applications": ABSOLUTE_SRC_PATH + "/scripts/applications",
+      "consts":       ABSOLUTE_SRC_PATH + "/scripts/consts",
+      "lib":          ABSOLUTE_SRC_PATH + "/scripts/lib",
+      "vendor":       ABSOLUTE_SRC_PATH + "/scripts/vendor"
     }
   }
 

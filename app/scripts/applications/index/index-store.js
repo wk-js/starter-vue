@@ -1,6 +1,6 @@
 'use strict'
 
-export const Store = {
+export const IndexStore = {
 
   section: {
     current: '',

@@ -5,9 +5,9 @@ import { BaseView } from 'barba.js'
 import { bind } from 'lol/utils/function'
 import { getLogger } from './utils/logger'
 
-const log = getLogger('Page')
+const log = getLogger('Application')
 
-export class Page {
+export class Application {
 
   constructor(id, component) {
     bind(this, 'onEnter', 'onEnterCompleted', 'onLeave', 'onLeaveCompleted')
@@ -17,6 +17,8 @@ export class Page {
 
     this.vue   = null
     this.barba = null
+
+    this.isPage = false
   }
 
   init() {
@@ -33,19 +35,24 @@ export class Page {
     this.barba.init()
   }
 
-  createVue( container ) {
-    this.component.el = container.querySelector('.vue-app')
+  createVue( $el ) {
+    if ($el) {
+      this.component.el = $el
+    } else {
+      this.component.el = `#${this.id}`
+    }
+
     this.vue = new Vue(this.component)
     this.vue.$emit('onEnter')
   }
 
   onPageReady( currentStatus, oldStatus, container ) {
-    if (!this.vue) this.createVue( container )
+    if (!this.vue) this.createVue( container.querySelector('.vue-app') )
   }
 
   onEnter() {
     log('[Barba] Enter:', this.id)
-    if (this.barba.container && this.vue && this.vue._isDestroyed) this.createVue( this.barba.container )
+    if (this.barba.container && this.vue && this.vue._isDestroyed) this.createVue( this.barba.container.querySelector('.vue-app') )
   }
 
   onEnterCompleted() {
@@ -66,6 +73,6 @@ export class Page {
 
 }
 
-export function CreatePage(id, component) {
-  return new Page(id, component)
+export function createApp(id, component) {
+  return new Application(id, component)
 }
