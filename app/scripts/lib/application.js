@@ -47,7 +47,7 @@ export class Application {
   }
 
   onPageReady( currentStatus, oldStatus, container ) {
-    if (!this.vue) this.createVue( container.querySelector('.vue-app') )
+    if (!this.vue && container) this.createVue( container.querySelector('.vue-app') )
   }
 
   onEnter() {
