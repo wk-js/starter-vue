@@ -63,7 +63,8 @@ function render( src, query ) {
     this.addDependency( layout_path )
 
     // Render layout only
-    src = renderSource.call( this, layout_src, query, this.resourcePath )
+    // src = renderSource.call( this, layout_src, query, this.resourcePath )
+    src = renderSource.call( this, layout_src, query, layout_path )
   }
 
   // Render view with layout
