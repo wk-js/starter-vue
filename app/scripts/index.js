@@ -1,4 +1,4 @@
-import { Application } from './app'
+import { Application } from './app.js'
 
-const App = new Application
+const App = new Application()
 document.addEventListener('DOMContentLoaded', App.onDOMContentLoaded)

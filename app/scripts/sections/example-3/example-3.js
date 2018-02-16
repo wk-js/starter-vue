@@ -1,15 +1,15 @@
 'use strict'
 
 import SectionMixin from 'lib/vue/mixins/section-mixin'
-import Example1Template from './example-1.html'
+import Example3Template from './example-3.html'
 
 export default {
 
-  template: Example1Template,
+  template: Example3Template,
 
   data() {
     return {
-      id: "example-1"
+      id: "example-3"
     }
   },
 
@@ -29,12 +29,8 @@ export default {
 
     onHidden() {},
 
-    onUiBtnClick(){
-      this.goToSection('example-2')
-    },
-
-    onGoToAbout() {
-      this.routeTo( 'about.html' )
+    onGoToIndex() {
+      this.routeTo( 'index.html' )
     }
 
   }

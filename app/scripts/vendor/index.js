@@ -1,5 +1,6 @@
-import Vue from 'vue'
 import BrowserDetect from './BrowserDetect'
 import { TweenLite } from 'gsap'
+import Polyfill from './polyfill'
 
-window.Vue = Vue
+window.TweenLite = TweenLite
+window.BrowserDetect = BrowserDetect

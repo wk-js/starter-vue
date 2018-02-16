@@ -10,8 +10,7 @@ import ComponentMixin from 'lib/vue/mixins/component-mixin'
  */
 import LinkTemplate from './link.html'
 
-
-module.exports = {
+export default {
 
   template: LinkTemplate,
 
@@ -24,13 +23,13 @@ module.exports = {
     }
   },
 
-  mounted() {
+  mounted () {
 
   },
 
   methods: {
 
-    _onClick() {
+    _onClick () {
       if (this.href && this.href.length > 0) {
         window.open(this.href, '_blank')
       }

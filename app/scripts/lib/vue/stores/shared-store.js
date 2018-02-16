@@ -1,6 +1,6 @@
 'use strict'
 
-const STORE = {
+export const SharedStore = {
 
   page: {
     name: '',
@@ -14,5 +14,3 @@ const STORE = {
   }
 
 }
-
-export default STORE

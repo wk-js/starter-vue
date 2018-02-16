@@ -1,11 +1,13 @@
 'use strict'
 
 import when from 'when'
-import { EventEmitter } from 'events'
+import EventEmitter from 'eventemitter3'
 
 const DEFAULT_PROMISE = when(true)
 
-class ComponentManager extends EventEmitter {
+const _MANAGERS = {}
+
+export class ComponentManager extends EventEmitter {
 
   constructor() {
     super()
@@ -29,7 +31,7 @@ class ComponentManager extends EventEmitter {
     return component
   }
 
-  register(id, component, visible=false) {
+  register(id, component, visible) {
     if (!this.components[id]) {
       this.components[id] = component
       visible ? this.forceShow( id ) : this.forceHide( id )
@@ -101,7 +103,17 @@ class ComponentManager extends EventEmitter {
   off() {
     this.removeListener.call(this, arguments)
   }
-}
 
-const ComponentManagerSingleton = new ComponentManager
-export default ComponentManagerSingleton
+  static get( id ) {
+    return _MANAGERS[ id ]
+  }
+
+  static create( id ) {
+    return _MANAGERS[ id ] = new ComponentManager()
+  }
+
+  static delete( id ) {
+    delete _MANAGERS[ id ]
+  }
+
+}

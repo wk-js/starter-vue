@@ -1,50 +1,48 @@
 'use strict'
 
-import { EventEmitter } from 'events'
+import EventEmitter from 'eventemitter3'
 import when from 'when'
 
 var TYPES = {}
-var typesRegExp = /(image|audio|video|magipack|pixi|xhr)/gi
 
 class Loader extends EventEmitter {
-
-  constructor() {
+  constructor () {
     super()
 
     this._onFileLoaded = this._onFileLoaded.bind(this)
-    this._onFileError  = this._onFileError.bind(this)
-    this._onComplete   = this._onComplete.bind(this)
+    this._onFileError = this._onFileError.bind(this)
+    this._onComplete = this._onComplete.bind(this)
 
     this._queue = []
   }
 
-  new() {
-    return new Loader
+  new () {
+    return new Loader()
   }
 
-  addType(type, regexOrCb, cb) {
+  addType (type, regexOrCb, cb) {
     TYPES[type] = {}
 
     let regex = regexOrCb
 
     if (typeof regexOrCb === 'function') {
-      cb    = regexOrCb
+      cb = regexOrCb
       regex = null
     }
 
-    TYPES[type].load  = cb
+    TYPES[type].load = cb
     if (regex) TYPES[type].regex = regex
   }
 
-  load(urlOrItemOrArray, doNotIterate=false) {
+  load (urlOrItemOrArray, doNotIterate = false) {
     // Is an url
     if (typeof urlOrItemOrArray === 'string') {
       this._loadUrl(urlOrItemOrArray)
     }
 
     // Is an item
-    else if (urlOrItemOrArray.hasOwnProperty('type')
-        && urlOrItemOrArray.hasOwnProperty('url')) {
+    else if (urlOrItemOrArray.hasOwnProperty('type') &&
+        urlOrItemOrArray.hasOwnProperty('url')) {
       this._loadItem(urlOrItemOrArray)
     }
 
@@ -53,10 +51,8 @@ class Loader extends EventEmitter {
       urlOrItemOrArray.forEach((item) => {
         this.load(item, true)
       })
-    }
-
-    else {
-      console.log("This content cannot be loaded")
+    } else {
+      console.log('This content cannot be loaded')
       return false
     }
 
@@ -66,19 +62,18 @@ class Loader extends EventEmitter {
     this._queue = []
     return {
       manifest: _queue,
-      promise: this._startLoading( _queue )
+      promise: this._startLoading(_queue)
     }
   }
 
-  _loadItem(item) {
-    if (item.type) { //&& item.url && item.type.match(typesRegExp)) {
-
-      var promise = when.promise(function(resolve, reject, notify) {
-        var clean = TYPES[item.type].load(item, function() {
+  _loadItem (item) {
+    if (item.type) { // && item.url && item.type.match(typesRegExp)) {
+      var promise = when.promise(function (resolve, reject, notify) {
+        var clean = TYPES[item.type].load(item, function () {
           notify(item)
           resolve(item)
           if (typeof clean === 'function') clean()
-        }, function() {
+        }, function () {
           notify(item)
           reject(item)
           if (typeof clean === 'function') clean()
@@ -95,10 +90,10 @@ class Loader extends EventEmitter {
     return false
   }
 
-  _loadUrl(url) {
+  _loadUrl (url) {
     var item = { url: url }
 
-    var types = Object.keys(TYPES).map(function(key) {
+    var types = Object.keys(TYPES).map(function (key) {
       return { type: key, regex: TYPES[key].regex }
     })
 
@@ -110,65 +105,62 @@ class Loader extends EventEmitter {
       }
     }
 
-    return this._loadItem( item )
+    return this._loadItem(item)
   }
 
-  _startLoading( queue ) {
-    var i     = 0
+  _startLoading (queue) {
+    var i = 0
     var count = queue.length
     var scope = this
 
     return when.all(queue).then(
     scope._onComplete,
     scope._onFileError,
-    function(item) {
+    function (item) {
       i++
       return scope._onFileLoaded(item, i / count)
     })
   }
 
-  _onFileLoaded(item, progress) {
+  _onFileLoaded (item, progress) {
     this.emit('fileloaded', item, progress)
     return { item: item, progress: progress }
   }
 
-  _onFileError(item) {
+  _onFileError (item) {
     this.emit('fileerror', item)
     return item
   }
 
-  _onComplete(items) {
+  _onComplete (items) {
     this.emit('complete', items)
     return items
   }
-
 }
 
-var _loader = new Loader
-
+var _loader = new Loader()
 
 /**
  * Image
  */
-_loader.addType('image', /.(jpg|jpeg|png|gif)/gi, function(item, onFileLoaded, onFileError) {
-  var image = new Image
+_loader.addType('image', /.(jpg|jpeg|png|gif)/gi, function (item, onFileLoaded, onFileError) {
+  var image = new Image()
   if (item.options && item.options.crossOrigin) image.crossOrigin = item.options.crossOrigin
-  image.onload  = onFileLoaded
+  image.onload = onFileLoaded
   image.onerror = onFileError
-  image.src     = item.url
-  item.element  = image
+  image.src = item.url
+  item.element = image
 
-  return function() {
-    image.onload  = null
+  return function () {
+    image.onload = null
     image.onerror = null
   }
 })
 
-
 /**
  * HTML5 Audio / Video
  */
-_loader.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function(item, onFileLoaded, onFileError) {
+_loader.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function (item, onFileLoaded, onFileError) {
   const AudioRegExp = /.(mp3|ogg)/gi
   const VideoRegExp = /.(mp4|ogv|webm)/gi
 
@@ -186,18 +178,16 @@ _loader.addType('media', /.(mp3|ogg|mp4|ogv|webm)/gi, function(item, onFileLoade
   media.load()
   item.element = media
 
-  return function() {
+  return function () {
     media.removeEventListener('loadedmetadata', onFileLoaded, false)
     media.removeEventListener('error', onFileError, false)
   }
 })
 
-
-
 /**
  * Magipack
  */
-_loader.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileError) {
+_loader.addType('magipack', /.(pack)/gi, function (item, onFileLoaded) {
   if (!window.Magipack) {
     console.log('Magipack is not defined')
     return false
@@ -207,23 +197,22 @@ _loader.addType('magipack', /.(pack)/gi, function(item, onFileLoaded, onFileErro
     window.Magipacks = {}
   }
 
-  var mgpack = new window.Magipack
+  var mgpack = new window.Magipack()
   mgpack.onLoadComplete = onFileLoaded
   mgpack.load(item.url, item.jsonFile)
   item.magipack = mgpack
   window.Magipacks[item.id] = mgpack
 
-  return function() {
+  return function () {
     mgpack.onLoadComplete = null
   }
 })
 
-
 /**
  * Load XHR
  */
-_loader.addType('xhr', function(item, onFileLoaded, onFileError) {
-  var xhr = new XMLHttpRequest
+_loader.addType('xhr', function (item, onFileLoaded, onFileError) {
+  var xhr = new XMLHttpRequest()
   xhr.open('GET', item.url, true)
   xhr.onload = onFileLoaded
   xhr.onerror = onFileError
@@ -235,17 +224,16 @@ _loader.addType('xhr', function(item, onFileLoaded, onFileError) {
   xhr.send(null)
   item.xhr = xhr
 
-  return function() {
-    xhr.onload  = null
+  return function () {
+    xhr.onload = null
     xhr.onerror = null
   }
 })
 
-
 /**
  * Load howler sound
  */
-_loader.addType('howler', function(item, onFileLoaded, onFileError) {
+_loader.addType('howler', function (item, onFileLoaded, onFileError) {
   if (!window.Howl || !window.Howler) {
     console.log('Howler is not defined')
     return false
@@ -264,9 +252,7 @@ _loader.addType('howler', function(item, onFileLoaded, onFileError) {
 
   item.sound = sound
 
-  return function() {}
+  return function () {}
 })
-
-
 
 export default _loader
