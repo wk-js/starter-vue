@@ -2,7 +2,7 @@
 
 import { CreatePage } from "../../lib/page";
 import { Store } from './about-store'
-import PageMixin from '../../lib/vue/mixins/page-mixin'
+import ApplicationMixin from '../../lib/vue/mixins/application-mixin'
 
 import Example3 from 'sections/example-3/example-3'
 
@@ -19,7 +19,7 @@ export default CreatePage('about', {
     "example-3": Example3
   },
 
-  mixins: [ PageMixin ],
+  mixins: [ ApplicationMixin ],
 
   mounted() {
     // Display section

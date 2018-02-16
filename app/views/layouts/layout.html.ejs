@@ -8,9 +8,16 @@
   </head>
   <body>
 
-    <div id="barba-wrapper">
-      <div class="barba-container" data-namespace="<%= page %>">
-        <%= content %>
+    <div id="app">
+      <section id="menu-app">
+        <link-ui @click.native="goTo('index.html')" :disable="shared_store.page.name === 'index'">Home</link-ui>
+        <link-ui @click.native="goTo('about.html')" :disable="shared_store.page.name === 'about'">About</link-ui>
+      </section>
+
+      <div id="page">
+        <div class="page__content" data-namespace="<%= page %>">
+          <%= content %>
+        </div>
       </div>
     </div>
 

@@ -18,18 +18,6 @@ export default {
     }
 
     SectionManager.get( this.$root.id ).register(this.id, this)
-  },
-
-  methods: {
-
-    goToSection(id) {
-      return SectionManager.get( this.$root.id ).goTo(id)
-    },
-
-    forceGoToSection(id) {
-      return SectionManager.get( this.$root.id ).forceGoTo(id)
-    }
-
   }
 
 }

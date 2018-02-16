@@ -31,10 +31,6 @@ export default {
 
     onUiBtnClick(){
       this.goToSection('example-2')
-    },
-
-    onGoToAbout() {
-      this.routeTo( 'about.html' )
     }
 
   }

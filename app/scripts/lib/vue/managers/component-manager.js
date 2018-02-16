@@ -112,6 +112,11 @@ export class ComponentManager extends EventEmitter {
     return _MANAGERS[ id ] = new ComponentManager()
   }
 
+  static getOrCreate( id ) {
+    if (_MANAGERS[ id ]) return _MANAGERS[ id ]
+    return _MANAGERS[ id ] = new ComponentManager()
+  }
+
   static delete( id ) {
     delete _MANAGERS[ id ]
   }

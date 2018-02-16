@@ -27,6 +27,9 @@ class PageManagerPrivate {
       );
     }).bind(Pjax)
 
+    Pjax.Dom.containerClass = 'page__content'
+    Pjax.Dom.wrapperId      = 'page'
+
     this.Dispatcher = Dispatcher
     this.Pjax       = Pjax
     this.activate()
