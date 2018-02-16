@@ -2,9 +2,9 @@
 
 ### Module : Git
 
-The module configuration is located at [workflow/modules/git.js](workflow/modules/git.js)
+The module configuration is located at [workflow/modules/git.js](../workflow/modules/git.js)
 
-To enable `git` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `git` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/git.js'))
@@ -19,9 +19,9 @@ To enable `git` module you have to uncomment this line in [config/application.js
 
 ### Module : Package
 
-The module configuration is located at [workflow/modules/package.js](workflow/modules/package.js)
+The module configuration is located at [workflow/modules/package.js](../workflow/modules/package.js)
 
-To enable `package` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `package` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/package.js'))
@@ -36,9 +36,9 @@ To enable `package` module you have to uncomment this line in [config/applicatio
 
 ### Module : Environments
 
-The module configuration is located at [workflow/modules/environments.js](workflow/modules/environments.js)
+The module configuration is located at [workflow/modules/environments.js](../workflow/modules/environments.js)
 
-To enable `environment` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `environment` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/environments.js'))
@@ -53,9 +53,9 @@ To enable `environment` module you have to uncomment this line in [config/applic
 
 ### Module : I18n
 
-The module configuration is located at [workflow/modules/i18n.js](workflow/modules/i18n.js)
+The module configuration is located at [workflow/modules/i18n.js](../workflow/modules/i18n.js)
 
-To enable `i18n` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `i18n` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/i18n.js'))
@@ -70,9 +70,9 @@ To enable `i18n` module you have to uncomment this line in [config/application.j
 
 ### Module : EJS
 
-The module configuration is located at [workflow/modules/ejs.js](workflow/modules/ejs.js)
+The module configuration is located at [workflow/modules/ejs.js](../workflow/modules/ejs.js)
 
-To enable `ejs` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `ejs` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/ejs.js'))
@@ -87,9 +87,9 @@ To enable `ejs` module you have to uncomment this line in [config/application.js
 
 ### Module : AWS
 
-The module configuration is located at [workflow/modules/aws.js](workflow/modules/aws.js)
+The module configuration is located at [workflow/modules/aws.js](../workflow/modules/aws.js)
 
-To enable `aws` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `aws` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/aws.js'))
@@ -104,9 +104,9 @@ To enable `aws` module you have to uncomment this line in [config/application.js
 
 ### Module : Webpack
 
-The module configuration is located at [workflow/modules/webpack.js](workflow/modules/webpack.js)
+The module configuration is located at [workflow/modules/webpack.js](../workflow/modules/webpack.js)
 
-To enable `webpack` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `webpack` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/webpack.js'))
@@ -121,9 +121,9 @@ To enable `webpack` module you have to uncomment this line in [config/applicatio
 
 ### Module : Assets
 
-The module configuration is located at [workflow/modules/webpack.js](workflow/modules/webpack.js)
+The module configuration is located at [workflow/modules/webpack.js](../workflow/modules/webpack.js)
 
-To enable `webpack` module you have to uncomment this line in [config/application.js](config/application.js)
+To enable `webpack` module you have to uncomment this line in [config/application.js](../config/application.js)
 
 ```js
 // this.module(require('../workflow/modules/webpack.js'))
