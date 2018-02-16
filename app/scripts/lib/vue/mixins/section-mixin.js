@@ -1,6 +1,5 @@
 'use strict'
 
-import { SectionManager } from 'lib/vue/managers/section-manager'
 import { FadeTransition } from '../transitions/section-component-transitions/fade-transition'
 
 export default {
@@ -17,7 +16,7 @@ export default {
       this.transition = new FadeTransition( this )
     }
 
-    SectionManager.get( this.$root.id ).register(this.id, this)
+    this.getSectionManager().register(this.id, this)
   }
 
 }

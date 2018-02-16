@@ -1,5 +1,6 @@
 'use strict'
 
+import Debug from './debug'
 import Vue from 'vue'
 // import Vuex from 'vuex'
 // import Infos from './consts/infos'
@@ -19,11 +20,6 @@ import UIComponents from './components/ui'
 import MenuApp  from './applications/menu/menu'
 import IndexApp from './applications/index/index'
 import AboutApp from './applications/about/about'
-
-/**
- * Debug
- */
-if (process.env.NODE_ENV === 'development') require('./debug')
 
 /**
  * Implementation

@@ -3,4 +3,6 @@ import { createLogger } from './lib/utils/logger'
 /**
  * Debug
  */
-createLogger('Application', true)
+if (process.env.NODE_ENV === 'development') {
+  createLogger('Application', true)
+}
