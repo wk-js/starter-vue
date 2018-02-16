@@ -6,6 +6,8 @@ import { promise } from 'when'
 export const FadeTransition = BaseTransition.extend({
 
   start() {
+    document.body.style.pointerEvents = 'none'
+
     this.newContainerLoading // Loading promise given by barba.js
     .then(this.fadeOut.bind(this))
     .then(this.fadeIn .bind(this))
@@ -13,6 +15,7 @@ export const FadeTransition = BaseTransition.extend({
   },
 
   finish() {
+    document.body.style.pointerEvents = ''
     document.body.scrollTop = 0
     this.done()
   },
