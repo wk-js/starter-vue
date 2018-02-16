@@ -2,24 +2,34 @@
 
 import Vue from 'vue'
 // import Vuex from 'vuex'
+// import Infos from './consts/infos'
+// import LoadingManifest from './consts/loading-manifest'
 import { bind } from 'lol/utils/function'
-import { SharedStore } from './lib/vue/stores/shared-store'
-import I18n from './lib/i18n.js.ejs'
-import { PageManager } from './lib/vue/managers/page-manager'
+import I18n from './lib/i18n.js'
 import RouteMixin from './lib/vue/mixins/route-mixin'
+import { AssetStore } from './lib/vue/stores/asset-store'
+import { SharedStore } from './lib/vue/stores/shared-store'
+import { PageManager } from './lib/vue/managers/page-manager'
 import { FadeTransition } from './lib/vue/transitions/page-transitions/fade-transition'
-import Infos from './consts/infos.js.ejs'
-
 import UIComponents from './components/ui'
 
+/**
+ * Pages
+ */
 import IndexPage from './pages/index/index'
 import AboutPage from './pages/about/about'
 
+/**
+ * Debug
+ */
 if (process.env.NODE_ENV === 'development') require('./debug')
 
+/**
+ * Implementation
+ */
 export class Application {
   constructor() {
-    bind(this, 'onDOMContentLoaded', 'onResize', 'onPageChanged')
+    bind(this, 'onDOMContentLoaded', 'setup', 'onResize', 'onPageChanged')
   }
 
   onDOMContentLoaded() {
@@ -29,6 +39,10 @@ export class Application {
     //     window.location.href = Infos.locale + '/index.html'
     //   }
     // }
+
+    // // Example loading assets
+    // const queue = AssetStore.load( LoadingManifest )
+    // queue.complete( this.setup )
 
     this.setup()
   }
@@ -50,7 +64,17 @@ export class Application {
         }
       },
 
-      mixins: [ RouteMixin ]
+      mixins: [ RouteMixin ],
+
+      methods: Object.assign({
+        asset_url( key ) {
+          return AssetStore.get(key).asset_url
+        },
+
+        asset_path( key ) {
+          return AssetStore.get(key).asset_path
+        }
+      }, I18n)
     })
 
     /**

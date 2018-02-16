@@ -39,7 +39,7 @@ function configure( App, OPTIONS ) {
 
   // Config: Resolve
   config.resolve = {
-    extensions: [ '.js', '.json' ],
+    extensions: [ '.js', '.js.ejs', '.json', '.json.ejs' ],
     alias: {
       "components": ABSOLUTE_SRC_PATH + "/scripts/components",
       "consts":     ABSOLUTE_SRC_PATH + "/scripts/consts",

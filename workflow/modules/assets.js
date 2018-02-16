@@ -46,6 +46,8 @@ module.exports = function AssetModule() {
       host: pipeline.asset_host,
       assets: pipeline.manifest.manifest.ASSETS
     })
+
+    this.data('assets', pipeline.manifest.manifest.ASSETS)
   })
 
 }

@@ -1,8 +1,7 @@
 'use strict'
 
 import { template } from 'lol/utils/string'
-
-const I18nData = <% print(JSON.stringify(i18n)) %>
+import I18nData from '../consts/i18n'
 
 function TEMPLATE_REGEX(key) {
   return new RegExp("\\%\\{"+key+"\\}", 'g')
