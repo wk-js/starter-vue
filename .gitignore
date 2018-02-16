@@ -4,3 +4,4 @@ npm-debug.*
 public
 dist
 tmp
+config/locales
