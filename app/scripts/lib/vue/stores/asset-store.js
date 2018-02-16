@@ -4,7 +4,7 @@ import MediaLoader from 'lib/media-loader'
 import when from 'when'
 import { EventEmitter } from 'events'
 
-class AssetStore extends EventEmitter {
+class _AssetStore extends EventEmitter {
 
   constructor() {
     super()
@@ -99,5 +99,4 @@ class AssetStore extends EventEmitter {
 
 }
 
-const _assetStore = new AssetStore
-export default_assetStore
+export const AssetStore = new _AssetStore()

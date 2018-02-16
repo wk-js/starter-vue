@@ -1,8 +1,8 @@
 'use strict'
 
-import Transition from './_transition'
+import Transition from '../../../transition'
 
-class DefaultTransition extends Transition {
+export class FadeTransition extends Transition {
 
   in( complete, next ) {
 
@@ -30,5 +30,3 @@ class DefaultTransition extends Transition {
   }
 
 }
-
-module.exports = DefaultTransition

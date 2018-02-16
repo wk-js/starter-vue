@@ -10,15 +10,14 @@ import ComponentMixin from 'lib/vue/mixins/component-mixin'
  */
 import ButtonTemplate from './button.html'
 
-
-module.exports = {
+export default {
 
   template: ButtonTemplate,
 
   mixins: [ ComponentMixin ],
 
   props: {
-    className:{
+    className: {
       type: String,
       default: ''
     },
@@ -28,13 +27,9 @@ module.exports = {
     }
   },
 
-  mounted() {
-
-  },
-
   methods: {
 
-    _onClick(e) {
+    _onClick () {
       if (this.href && this.href.length > 0) {
         window.open(this.href, '_blank')
       }

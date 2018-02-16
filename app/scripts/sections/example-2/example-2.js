@@ -1,18 +1,9 @@
 'use strict'
 
-/**
- * Mixins
- */
 import SectionMixin from 'lib/vue/mixins/section-mixin'
-import SectionManager from 'lib/vue/managers/section-manager'
-
-/**
- * Templates
- */
 import Example2Template from './example-2.html'
 
-
-module.exports = {
+export default {
 
   template: Example2Template,
 
@@ -39,7 +30,7 @@ module.exports = {
     onHidden() {},
 
     onUiBtnClick(){
-      SectionManager.Shared.goTo('example-1')
+      this.goToSection('example-1')
     }
 
   }

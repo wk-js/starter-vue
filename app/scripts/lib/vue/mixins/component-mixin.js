@@ -1,6 +1,6 @@
 'use strict'
 
-import DefaultTransition from 'lib/vue/transitions/default'
+import { FadeTransition } from '../transitions/section-component-transitions/fade-transition'
 
 export default {
 
@@ -13,7 +13,7 @@ export default {
 
   mounted() {
     if (!this.transition) {
-      this.transition = new DefaultTransition( this )
+      this.transition = new FadeTransition( this )
     }
   }
 

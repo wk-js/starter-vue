@@ -1,7 +1,7 @@
 'use strict'
 
-import SectionManager from 'lib/vue/managers/section-manager'
-import DefaultTransition from 'lib/vue/transitions/default'
+import { SectionManager } from 'lib/vue/managers/section-manager'
+import { FadeTransition } from '../transitions/section-component-transitions/fade-transition'
 
 export default {
 
@@ -14,16 +14,20 @@ export default {
 
   mounted() {
     if (!this.transition) {
-      this.transition = new DefaultTransition( this )
+      this.transition = new FadeTransition( this )
     }
 
-    SectionManager.register(this.id, this)
+    SectionManager.get( this.$root.id ).register(this.id, this)
   },
 
   methods: {
 
     goToSection(id) {
-      return SectionManager.goTo(id)
+      return SectionManager.get( this.$root.id ).goTo(id)
+    },
+
+    forceGoToSection(id) {
+      return SectionManager.get( this.$root.id ).forceGoTo(id)
     }
 
   }

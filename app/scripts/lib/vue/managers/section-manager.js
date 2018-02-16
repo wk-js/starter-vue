@@ -1,9 +1,11 @@
 'use strict'
 
 import when from 'when'
-import ComponentManager from './component-manager'
+import { ComponentManager } from './component-manager'
 
-class SectionManager extends ComponentManager._constructor {
+const _MANAGERS = {}
+
+export class SectionManager extends ComponentManager {
 
   constructor() {
     super()
@@ -14,8 +16,6 @@ class SectionManager extends ComponentManager._constructor {
     this.type = 'section'
 
     this.transitioning = false
-
-    window.SectionManager = this
   }
 
   get _constructor() {
@@ -47,6 +47,18 @@ class SectionManager extends ComponentManager._constructor {
     return this.show(id, scope._next)
   }
 
+  forceGoTo(id) {
+    if (this._nextSectionId === id || !this.get(id) || (this.currentSection && this.currentSection.id === id)) return
+    if (this.transitioning) return when(true)
+
+    if (this.currentSection) this.forceHide(this.currentSection.id)
+
+    this._nextSectionId = id
+    this._next()
+
+    this.forceShow(this.currentSection.id)
+  }
+
   _next() {
     const previous = this.currentSection ? this.currentSection : null
     const prevID   = previous ? previous.id : null
@@ -62,19 +74,16 @@ class SectionManager extends ComponentManager._constructor {
     this.transitioning = false
   }
 
-  forceGo(id) {
-    if (this._nextSectionId === id || !this.get(id) || (this.currentSection && this.currentSection.id === id)) return
-    if (this.transitioning) return
+  static get( id ) {
+    return _MANAGERS[ id ]
+  }
 
-    if (this.currentSection) this.forceHide(this.currentSection.id)
+  static create( id ) {
+    return _MANAGERS[ id ] = new SectionManager()
+  }
 
-    this._nextSectionId = id
-    this._next()
-
-    this.forceShow(this.currentSection.id)
+  static delete( id ) {
+    delete _MANAGERS[ id ]
   }
 
 }
-
-const SectionManagerSingleton = new SectionManager
-export default SectionManagerSingleton
