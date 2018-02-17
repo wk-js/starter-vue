@@ -64,12 +64,26 @@ export class Application {
       mixins: [ CommonMixin ],
 
       methods: Object.assign({
+        asset_exists(key) {
+          return !!AssetStore.get(key)
+        },
+
         asset_url( key ) {
-          return AssetStore.get(key).asset_url
+          if (this.asset_exists(key)) {
+            return AssetStore.get(key).asset_url
+          }
+
+          console.warn(`Asset "${key}" is not found.`)
+          return key
         },
 
         asset_path( key ) {
-          return AssetStore.get(key).asset_path
+          if (this.asset_exists(key)) {
+            return AssetStore.get(key).asset_path
+          }
+
+          console.warn(`Asset "${key}" is not found.`)
+          return key
         }
       }, I18n)
     })

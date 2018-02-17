@@ -16,7 +16,7 @@ module.exports = function Development() {
       condition: 'asset_data.locale === data',
       outputs: [
         { base_dir: 'en', data: 'en' },
-        { base_dir: 'fr', data: 'fr' },
+        { base_dir: 'fr', data: 'fr' }
       ]
     }
   })

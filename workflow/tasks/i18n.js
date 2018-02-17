@@ -2,7 +2,7 @@
 'use strict';
 
 const GoogleSpreadsheet = require("google-spreadsheet");
-const FileUtils         = require( 'wkt/js/api/file/utils' )
+const FileUtils         = require( 'asset-pipeline/js/utils/fs' )
 const { relative }      = require( "path" )
 
 

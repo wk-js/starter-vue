@@ -35,19 +35,19 @@ module.exports = function AssetModule() {
   })
 
   this.configure.after('application:configure', 'assets:resolve', () => {
-    pipeline.resolve()
+    return pipeline.resolve().then(() => {
+      this.config('assets', {
+        load_path: pipeline.load_path,
+        destination_path: pipeline.dst_path,
+        cacheable: pipeline.cacheable,
+        prefix: pipeline.prefix,
+        hash: pipeline.asset_key,
+        host: pipeline.asset_host,
+        assets: pipeline.manifest.manifest.assets
+      })
 
-    this.config('assets', {
-      load_path: pipeline.load_path,
-      destination_path: pipeline.dst_path,
-      cacheable: pipeline.cacheable,
-      prefix: pipeline.prefix,
-      hash: pipeline.asset_key,
-      host: pipeline.asset_host,
-      assets: pipeline.manifest.manifest.ASSETS
+      this.data('assets', pipeline.manifest.manifest.assets)
     })
-
-    this.data('assets', pipeline.manifest.manifest.ASSETS)
   })
 
 }

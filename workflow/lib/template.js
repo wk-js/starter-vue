@@ -3,7 +3,7 @@
 const ejs  = require( 'lodash.template' )
 const path = require( 'path' )
 const fs   = require( 'fs' )
-const _   = require( 'wkt/js/api/file/utils' )
+const _   = require( 'asset-pipeline/js/utils/fs' )
 
 class Template {
 
@@ -31,18 +31,18 @@ class Template {
       this.options.filename = path.resolve( this.input )
     }
 
-    _.ensureDir( path.dirname(this.output) )
+    _.ensureDir( path.dirname(this.output) ).then(() => {
+      const rs = fs.createReadStream(this.input)
+      const ws = fs.createWriteStream(this.output)
 
-    const rs = fs.createReadStream(this.input)
-    const ws = fs.createWriteStream(this.output)
+      rs.on('data', ( chunk ) => {
+        chunk = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : chunk
+        ws.write( this.renderSource(chunk) )
+      })
 
-    rs.on('data', ( chunk ) => {
-      chunk = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : chunk
-      ws.write( this.renderSource(chunk) )
-    })
-
-    rs.on('end', () => {
-      ws.end()
+      rs.on('end', () => {
+        ws.end()
+      })
     })
   }
 

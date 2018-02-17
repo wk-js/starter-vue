@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "wk": "$(npm bin)/wk",
     "start": "wk server",
     "compile": "wk compile",
     "watch": "wk watch",
@@ -14,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "asset-pipeline": "github:wk-js/asset-pipeline#v1.0.0",
+    "asset-pipeline": "github:wk-js/asset-pipeline#1.0.4",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
@@ -32,7 +33,7 @@
     "stylus-loader": "3.0.1",
     "vue": "2.5.13",
     "webpack": "3.11.0",
-    "wkt": "github:wk-js/wkt",
+    "wkt": "github:wk-js/wkt#0.1.2",
     "workflow-cli": "github:wk-js/wk#v0.8.10"
   },
   "browser": {

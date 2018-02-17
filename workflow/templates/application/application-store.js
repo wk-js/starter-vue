@@ -1,6 +1,6 @@
 'use strict'
 
-export const <%= camelCase %>Store = {
+export const {%= camelCase %}Store = {
 
   section: {
     current: '',
