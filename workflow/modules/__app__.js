@@ -35,4 +35,6 @@ module.exports = function() {
     return helpers
   })
 
+  this.data('infos', {})
+
 }

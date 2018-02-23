@@ -4,8 +4,12 @@ import Vue from 'vue'
 import { BaseView } from 'barba.js'
 import { bind } from 'lol/utils/function'
 import { getLogger } from './utils/logger'
+import { template2 } from 'lol/utils/string'
+import { clone } from 'lol/utils/object'
 
 const log = getLogger('Application')
+
+const SELECTORS = [ '.vue-app', '#${id}-app', '.${id}-app' ]
 
 export class Application {
 
@@ -29,25 +33,35 @@ export class Application {
       onEnterCompleted: this.onEnterCompleted,
 
       onLeave: this.onLeave,
-      onLeaveCompleted: this.onLeaveCompleted,
+      onLeaveCompleted: this.onLeaveCompleted
     })
 
     this.barba.init()
   }
 
   createVue( $el ) {
-    if ($el) {
-      this.component.el = $el
-    } else {
-      this.component.el = `#${this.id}`
+    if (!$el) throw new Error(`No HTMLElement found for the application with id "${this.id}"`)
+
+    if (typeof $el !== 'string' && 'dataset' in $el) {
+      this.component.propsData = clone($el.dataset)
     }
 
+    this.component.el = $el
     this.vue = new Vue(this.component)
     this.vue.$emit('onEnter')
   }
 
   onPageReady( currentStatus, oldStatus, container ) {
-    if (!this.vue && container) this.createVue( container.querySelector('.vue-app') )
+    if (container) {
+      let $el
+
+      for (let i = 0, ilen = SELECTORS.length; i < ilen; i++) {
+        $el = container.querySelector(template2(SELECTORS[i], { id: this.id }))
+        if ($el) break;
+      }
+
+      this.createVue( $el )
+    }
   }
 
   onEnter() {

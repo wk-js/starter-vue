@@ -1,10 +1,11 @@
-/* eslint-disable */
-//@api=file
-//@api=prompt
-
+---
+apis:
+  - file
+  - boilerplate
+---
 const _ = require('lol/utils/string')
 
-LocalStack().before('bundle', 'prompt', function() {
+stack().before('bundle', 'prompt', function() {
   return prompt('Application name:').then(function(name) {
     addFile('*', { base_dir: name, rename: name+'${ext}', template: true })
     addFile('*-store.js', { base_dir: name, rename: name + '-store${ext}', template: true })

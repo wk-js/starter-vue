@@ -115,7 +115,7 @@ export class Application {
     PageManager.register(AboutApp)
 
     // Create directly the App for non-Pjax content
-    MenuApp.createVue()
+    MenuApp.createVue('#menu')
 
     // Start
     PageManager.options.listenLink = false

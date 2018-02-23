@@ -1,6 +1,6 @@
 {
   "name": "starter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,32 +15,32 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lol": "github:makemepulse/lol.js",
+    "google-spreadsheet": "2.0.4",
+    "vue": "2.5.13",
+    "barba.js": "1.0.0",
+    "gsap": "1.20.3",
+    "eventemitter3": "3.0.1"
+  },
+  "devDependencies": {
     "asset-pipeline": "github:wk-js/asset-pipeline#1.0.4",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-es2015": "6.24.1",
-    "barba.js": "1.0.0",
-    "eventemitter3": "3.0.1",
     "extract-text-webpack-plugin": "3.0.2",
     "front-matter": "2.3.0",
-    "google-spreadsheet": "2.0.4",
-    "gsap": "1.20.3",
     "lodash.template": "4.4.0",
-    "lol": "github:makemepulse/lol.js",
+    "webpack-dev-server": "2.11.1",
     "raw-loader": "0.5.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.1",
-    "vue": "2.5.13",
     "webpack": "3.11.0",
-    "wkt": "github:wk-js/wkt#0.1.2",
+    "wkt": "github:wk-js/wkt#0.1.5",
     "workflow-cli": "github:wk-js/wk#v0.8.10"
   },
+  "build": "20180216.0",
   "browser": {
     "vue": "vue/dist/vue.common"
-  },
-  "devDependencies": {
-    "webpack-dev-server": "2.11.1"
-  },
-  "build": "20180216.0"
+  }
 }
