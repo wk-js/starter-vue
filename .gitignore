@@ -1,7 +1,0 @@
-.DS_Store
-node_modules
-npm-debug.*
-public
-dist
-tmp
-config/locales
