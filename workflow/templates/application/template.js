@@ -2,6 +2,7 @@
 apis:
   - file
   - boilerplate
+  - prompt
 ---
 const _ = require('lol/utils/string')
 
