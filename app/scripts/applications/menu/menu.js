@@ -4,7 +4,7 @@ import { createApp } from "lib/application";
 import { MenuStore } from './menu-store'
 import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 
-export default createApp('menu', {
+export const MenuApp = createApp('menu', {
 
   data() {
     return {

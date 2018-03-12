@@ -17,9 +17,9 @@ import UIComponents from './components/ui'
 /**
  * Applications
  */
-import MenuApp  from './applications/menu/menu'
-import IndexApp from './applications/index/index'
-import AboutApp from './applications/about/about'
+import { MenuApp  } from './applications/menu/menu'
+import { IndexApp } from './applications/index/index'
+import { AboutApp } from './applications/about/about'
 
 /**
  * Implementation

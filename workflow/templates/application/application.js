@@ -4,7 +4,7 @@ import { createApp } from "lib/application";
 import { {%= camelCase %}Store } from './{%= name %}-store'
 import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 
-export default createApp('{%= name %}', {
+export const {%= camelCase %}App = createApp('{%= name %}', {
 
   data() {
     return {

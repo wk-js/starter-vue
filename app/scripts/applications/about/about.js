@@ -6,7 +6,7 @@ import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 
 import Example3 from 'sections/example-3/example-3'
 
-export default createApp('about', {
+export const AboutApp = createApp('about', {
 
   data() {
     return {
