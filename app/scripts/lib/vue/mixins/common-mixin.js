@@ -21,7 +21,7 @@ export default {
     },
 
     forceGoTo( url ) {
-      PageManager.goTo( url )
+      PageManager.forceGoTo( url )
     },
 
     goToSection(id) {
