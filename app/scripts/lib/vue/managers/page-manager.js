@@ -16,7 +16,7 @@ class PageManagerPrivate {
     this.options = options
 
     Pjax.bindEvents = (function() {
-      if (!options.listenLink) {
+      if (options.listenLink) {
         document.addEventListener('click',
           this.onLinkClick.bind(this)
         );
