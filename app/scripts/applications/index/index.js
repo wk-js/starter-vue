@@ -7,7 +7,7 @@ import ApplicationMixin from 'lib/vue/mixins/application-mixin'
 import Example1 from 'sections/example-1/example-1'
 import Example2 from 'sections/example-2/example-2'
 
-export default createApp('index', {
+export const IndexApp = createApp('index', {
 
   data() {
     return {
